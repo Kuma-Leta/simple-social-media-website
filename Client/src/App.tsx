@@ -12,6 +12,7 @@ import NotFound from "./Components/notFound";
 import HomePage from "./Components/home";
 import SystemOverview from "./Components/systemOverview";
 import { PrivateRoutes } from "./privateRoutes";
+import Profile from "./Components/Profile/profile";
 const App: React.FC = () => {
   return (
     <>
@@ -21,6 +22,14 @@ const App: React.FC = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoutes>
+                <Profile />
+              </PrivateRoutes>
+            }
+          />
           <Route
             path="/profile/addPost"
             element={
