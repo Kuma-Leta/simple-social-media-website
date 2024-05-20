@@ -101,17 +101,27 @@ const SystemOverview: React.FC = () => {
           <p>Address: 123 Blog Street, Blog City, BC 12345</p>
         </div>
         <form
-          action="mailto:info@yourblogname.com"
+          action="mailto:kumaleta2021@gmail.com"
           method="post"
           encType="text/plain"
         >
-          <label htmlFor="name">Name:</label>
-          <input type="text" id="name" name="name" required />
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" required />
-          <label htmlFor="message">Message:</label>
-          <textarea id="message" name="message" rows={4} required></textarea>
-          <input type="submit" value="Send" />
+          <div className="nameAndEmail">
+            <div className="name">
+              <label htmlFor="name">Name:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div className="email">
+              <label htmlFor="email">Email:</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+          </div>
+          <div className="message">
+            <label htmlFor="message">Your Message:</label>
+            <textarea id="message" name="message" rows={4} required></textarea>
+          </div>
+          <div className="submitBtn">
+            <input type="submit" value="Send" />
+          </div>
         </form>
       </section>
     </div>
