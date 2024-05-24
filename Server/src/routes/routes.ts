@@ -12,7 +12,7 @@ import { getPreviousPost } from "../Controllers/profileController/previousPostDi
 import { searchForPost } from "../Controllers/searchForPostController";
 import { addRating } from "../Controllers/addRatingController";
 import { protect } from "../middleware/authenticationMiddleware";
-import { changePassaword } from "../Controllers/profileController/setting/changePassword";
+import { changePassword } from "../Controllers/profileController/setting/changePassword";
 // import { upload } from "../middleware/uploadMiddleware";
 import multer from "multer";
 import path from "path";
@@ -32,7 +32,7 @@ router.post(
   addPost
 );
 router.delete("/deletePost", protect, deletePost);
-router.patch("/profile/changePassaword", protect, changePassaword);
+router.put("/changePassaword", protect, changePassword);
 router.put("/editPost", protect, editPost);
 router.put("/addRating", protect, addRating);
 router.get("/previousPosts", protect, getPreviousPost);

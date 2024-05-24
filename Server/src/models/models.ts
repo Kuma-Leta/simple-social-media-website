@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 
-// Define the Post interface and schema inline within the User model
 interface Post {
   author: string;
   textContent: string;
@@ -15,6 +15,7 @@ interface User extends Document {
   password: string;
   email: string;
   posts: Post[];
+  comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const postSchema = new Schema<Post>(
@@ -56,6 +57,21 @@ const userSchema = new Schema<User>(
   { timestamps: true }
 );
 
+// Hash password before saving
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// Add method to compare passwords
+userSchema.methods.comparePassword = function (candidatePassword: string) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
 export const UserModel = model<User>("User", userSchema);
 
-export { Post }; // Export the Post interface if needed elsewhere
+export { Post };
