@@ -32,7 +32,7 @@ router.post(
   addPost
 );
 router.delete("/deletePost", protect, deletePost);
-router.put("/changePassaword", protect, changePassword);
+router.put("/changePassword", protect, changePassword);
 router.put("/editPost", protect, editPost);
 router.put("/addRating", protect, addRating);
 router.get("/previousPosts", protect, getPreviousPost);

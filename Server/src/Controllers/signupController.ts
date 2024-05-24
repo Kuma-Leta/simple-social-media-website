@@ -2,40 +2,36 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { UserModel } from "../models/models";
+
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "", { expiresIn: "30d" });
 };
+
 export const createUsers = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const { name, email, password } = req.body;
-    const userAlreadyExists = await UserModel.findOne({ email: email });
+    const userAlreadyExists = await UserModel.findOne({ email });
     if (userAlreadyExists) {
-      return res.status(400).json({ message: "user already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const userAccount = new UserModel({
-      email: email,
+      email,
       password: hashedPassword,
-      name: name,
+      name,
     });
     await userAccount.save();
-    if (userAccount) {
-      res.status(201).json({
-        id: userAccount.id,
-        name: userAccount.name,
-        email: userAccount.email,
-        token: generateToken(userAccount.id),
-      });
-    }
+    res.status(201).json({
+      id: userAccount._id,
+      name: userAccount.name,
+      email: userAccount.email,
+      token: generateToken(userAccount.id),
+    });
   } catch (error: any) {
-    console.log(error);
     let statusCode = 500;
     let message = "Internal server error";
 
     if (error.code === 11000) {
-      // Handling MongoDB duplicate key error
       message = "Email already exists";
       statusCode = 400;
     } else if (error.name === "ValidationError") {

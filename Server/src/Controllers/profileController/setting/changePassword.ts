@@ -1,4 +1,3 @@
-import { model } from "mongoose";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { UserModel } from "../../../models/models";
@@ -10,31 +9,19 @@ export const changePassword = async (
 ) => {
   try {
     const { oldPassword, newPassword } = req.body;
-
-    // Find the user by ID
     const user = await UserModel.findById(req.user._id);
-
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
-    // Check if the old password matches
-    const isMatch = await user.comparePassword(oldPassword);
-
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Old password is incorrect" });
     }
-
-    // Hash the new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-    // Update the user's password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
-
     res.status(200).json({ message: "Password changed successfully" });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: "Error changing password" });
   }
 };
