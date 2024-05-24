@@ -95,7 +95,7 @@ const SystemOverview: React.FC = () => {
           </p>
           <p>
             Email:{" "}
-            <a href="mailto:info@yourblogname.com">info@yourblogname.com</a>
+            <a href="mailto:kumaleta2021@gmail.com">info@yourblogname.com</a>
           </p>
           <p>Phone: +123-456-7890</p>
           <p>Address: 123 Blog Street, Blog City, BC 12345</p>

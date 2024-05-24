@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { SignupModel } from "../models/models";
+import { UserModel } from "../models/models";
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "", { expiresIn: "30d" });
 };
@@ -9,13 +9,13 @@ export const createUsers = async (req: Request, res: Response) => {
   try {
     console.log(req.body);
     const { name, email, password } = req.body;
-    const userAlreadyExists = await SignupModel.findOne({ email: email });
+    const userAlreadyExists = await UserModel.findOne({ email: email });
     if (userAlreadyExists) {
       return res.status(400).json({ message: "user already exists" });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const userAccount = new SignupModel({
+    const userAccount = new UserModel({
       email: email,
       password: hashedPassword,
       name: name,

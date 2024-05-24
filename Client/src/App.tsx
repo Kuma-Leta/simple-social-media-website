@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/index.css";
+// import "./styles/index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddPost from "./Components/Profile/addPost";
 // import DeletePost from "./Components/Profile/deletePost";
@@ -13,6 +13,10 @@ import HomePage from "./Components/home";
 import SystemOverview from "./Components/systemOverview";
 import { PrivateRoutes } from "./privateRoutes";
 import Profile from "./Components/Profile/profile";
+import Settings from "./Components/Profile/userSettings/settings";
+import ChangeYourName from "./Components/Profile/userSettings/changeName";
+import ChangeYourPassword from "./Components/Profile/userSettings/changePassword";
+import ChangeEmail from "./Components/Profile/userSettings/changeEmail";
 const App: React.FC = () => {
   return (
     <>
@@ -30,6 +34,40 @@ const App: React.FC = () => {
               </PrivateRoutes>
             }
           />
+          <Route
+            path="/profile/userSetting"
+            element={
+              <PrivateRoutes>
+                <Settings />
+              </PrivateRoutes>
+            }
+          />
+
+          <Route
+            path="/profile/userSetting/changePassword"
+            element={
+              <PrivateRoutes>
+                <ChangeYourPassword />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/profile/userSetting/changeName"
+            element={
+              <PrivateRoutes>
+                <ChangeYourName />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/profile/userSetting/changeEmail"
+            element={
+              <PrivateRoutes>
+                <ChangeEmail />
+              </PrivateRoutes>
+            }
+          />
+
           <Route
             path="/profile/addPost"
             element={

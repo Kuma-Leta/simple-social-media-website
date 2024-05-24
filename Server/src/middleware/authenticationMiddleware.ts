@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload, verify } from "jsonwebtoken";
-import { SignupModel } from "../models/models";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { UserModel } from "../models/models";
+
 export interface AuthenticatedRequest extends Request {
   user?: any;
 }
+
 export const protect = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -15,18 +17,27 @@ export const protect = async (
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      // get token from header
+      // Get token from header
       token = req.headers.authorization.split(" ")[1];
-      //verify token
-      const decoded: JwtPayload | string = jwt.verify(
+
+      // Verify token
+      const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || " "
+        process.env.JWT_SECRET || "default_secret"
       ) as JwtPayload;
-      req.user = await SignupModel.findById(decoded.id).select("-password");
+
+      // Find the user by ID and attach to req.user
+      req.user = await UserModel.findById(decoded.id).select("-password");
+
+      if (!req.user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+
+      next();
     } catch (error) {
-      res.status(401).json({ message: "unauthorized" });
+      return res.status(401).json({ message: "Unauthorized, token failed" });
     }
   } else {
-    res.status(401).json({ message: "unauthorized" });
+    return res.status(401).json({ message: "Unauthorized, no token" });
   }
 };

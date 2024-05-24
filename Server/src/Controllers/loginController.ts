@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { SignupModel } from "../models/models";
+import { UserModel } from "../models/models";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const generateToken = (id: string) => {
@@ -9,7 +9,7 @@ export const loginUsers = async (req: Request, res: Response) => {
   try {
     console.log(req.body);
     const { email, password } = req.body;
-    const userAccount = await SignupModel.findOne({ email });
+    const userAccount = await UserModel.findOne({ email });
     if (userAccount && (await bcrypt.compare(password, userAccount.password))) {
       res.status(200).json({
         id: userAccount._id,

@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "../styles/login.css";
 import { IoLogoGoogle } from "react-icons/io";
-import axios from "axios";
+import axios from "../axiosConfig";
 import "../styles/login.css";
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -54,6 +54,7 @@ const Login: React.FC = () => {
               required
             />
           </div>
+          <button>reset password</button>
           <div>
             <input
               placeholder="enter password"

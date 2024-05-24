@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "../styles/home.css";
 const HomePage: React.FC = () => {
+  const [searchItem, setSearchItem] = useState("");
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+  const handleSearch = () => {
+    console.log(searchItem);
+  };
   return (
     <div className="homeContainer">
       <h1>
@@ -9,7 +19,12 @@ const HomePage: React.FC = () => {
       <div className="profileAndSearchContainer">
         <Link to={"/profile"}>kuma leta</Link>
         <div>
-          <input type="submit" placeholder="search for post" />
+          <input
+            type="text"
+            placeholder="search for post"
+            onChange={(e) => setSearchItem(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
         </div>
       </div>
       <div className="categories">
@@ -21,6 +36,7 @@ const HomePage: React.FC = () => {
           <button>technology</button>
           <button>politics</button>
           <button>sports</button>
+          <button>Arts</button>
         </div>
       </div>
       <div className="postsContainer">
