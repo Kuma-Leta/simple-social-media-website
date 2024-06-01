@@ -25,7 +25,6 @@ const App: React.FC = () => {
           <Route path="/" element={<SystemOverview />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-
           <Route
             path="/profile"
             element={
@@ -42,7 +41,6 @@ const App: React.FC = () => {
               </PrivateRoutes>
             }
           />
-
           <Route
             path="/profile/userSetting/changePassword"
             element={

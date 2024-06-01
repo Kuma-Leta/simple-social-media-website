@@ -9,6 +9,7 @@ const generateToken = (id: string) => {
 
 export const loginUsers = async (req: Request, res: Response) => {
   try {
+    let message = "";
     const { email, password } = req.body;
     const userAccount = await UserModel.findOne({ email });
     if (!userAccount) {
@@ -26,7 +27,7 @@ export const loginUsers = async (req: Request, res: Response) => {
         token: generateToken(userAccount.id),
       });
     } else {
-      res.status(400).json({ message: "Invalid user credentials" });
+      res.status(400).json({ message: "incorrect password" });
     }
   } catch (error: any) {
     res.status(500).json({

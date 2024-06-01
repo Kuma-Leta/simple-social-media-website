@@ -1,7 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../styles/systemOverview.css";
 const SystemOverview: React.FC = () => {
+  const navigate = useNavigate();
+  const authToken = localStorage.getItem("authToken");
+  if (authToken) {
+    navigate("/profile/previousPosts");
+  }
   return (
     <div className="systemOverviewContainer">
       <header className="header">

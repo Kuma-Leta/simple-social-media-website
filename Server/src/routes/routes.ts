@@ -13,6 +13,10 @@ import { searchForPost } from "../Controllers/searchForPostController";
 import { addRating } from "../Controllers/addRatingController";
 import { protect } from "../middleware/authenticationMiddleware";
 import { changePassword } from "../Controllers/profileController/setting/changePassword";
+import { deleteUserAccount } from "../Controllers/profileController/setting/changeAccount";
+import { changeName } from "../Controllers/profileController/setting/changeAccount";
+import { changeEmail } from "../Controllers/profileController/setting/changeAccount";
+import { resetPassword } from "../Controllers/resetPassword/resetPassword";
 // import { upload } from "../middleware/uploadMiddleware";
 import multer from "multer";
 import path from "path";
@@ -32,10 +36,14 @@ router.post(
   addPost
 );
 router.delete("/deletePost", protect, deletePost);
+router.delete("/deleteAccount", protect, deleteUserAccount);
+router.put("/changeName", protect, changeName);
+router.put("/changeEmail", protect, changeEmail);
 router.put("/changePassword", protect, changePassword);
 router.put("/editPost", protect, editPost);
 router.put("/addRating", protect, addRating);
 router.get("/previousPosts", protect, getPreviousPost);
 router.get("/searchForPost", protect, searchForPost);
+router.get("/resetPassword", protect, resetPassword);
 
 export default router;

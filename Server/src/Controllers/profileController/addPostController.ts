@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "../../models/models";
+import { userModel } from "../../models/userModel";
 import { AuthenticatedRequest } from "../../middleware/authenticationMiddleware";
+import { postModel } from "../../models/postModel";
 
 interface MulterRequest extends AuthenticatedRequest {
   files: {
@@ -33,16 +34,19 @@ export const addPost = async (req: Request, res: Response) => {
     };
 
     const userId = multerReq.user._id;
-    const user = await UserModel.findById(userId);
+    const user = await userModel.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    user.posts.push(newPost);
-    const updatedUser = await user.save();
+    // user.posts.push(newPost);
+    const Post = await postModel.create({
+      newPost,
+    });
+    // const updatedUser = await user.save();
 
-    res.status(201).json(updatedUser);
+    res.status(201).json(Post);
   } catch (error: any) {
     console.log(error);
     res.status(500).json({
