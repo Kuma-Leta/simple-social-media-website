@@ -20,7 +20,15 @@ export const addPost = async (req: Request, res: Response) => {
     console.log(req.body);
 
     const { author, textContent, category } = req.body;
+    const userId = multerReq.user._id;
+    const user = await userModel.findById(userId);
 
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (!author || !textContent || !category) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
     const newPost = {
       author,
       textContent,
@@ -31,19 +39,11 @@ export const addPost = async (req: Request, res: Response) => {
       videoContent: multerReq.files?.videoContent
         ? multerReq.files.videoContent[0].path
         : "",
+      user: userId,
     };
 
-    const userId = multerReq.user._id;
-    const user = await userModel.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
     // user.posts.push(newPost);
-    const Post = await postModel.create({
-      newPost,
-    });
+    const Post = await postModel.create(newPost);
     // const updatedUser = await user.save();
 
     res.status(201).json(Post);
