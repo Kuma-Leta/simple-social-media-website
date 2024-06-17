@@ -17,14 +17,15 @@ import { deleteUserAccount } from "../Controllers/profileController/setting/chan
 import { changeName } from "../Controllers/profileController/setting/changeAccount";
 import { changeEmail } from "../Controllers/profileController/setting/changeAccount";
 import { resetPassword } from "../Controllers/resetPassword/resetPassword";
+import catchAsync from "../globalErrorHandling/catchAsync";
 // import { upload } from "../middleware/uploadMiddleware";
 import multer from "multer";
 import path from "path";
 const router = express.Router();
 // const upload = multer({ dest: "uploads/" });
-router.post("/signup", createUsers);
-router.post("/login", loginUsers);
-router.get("/getAllposts", protect, getAllPosts);
+router.post("/signup", catchAsync(createUsers));
+router.post("/login", catchAsync(loginUsers));
+router.get("/getAllposts", protect, catchAsync(getAllPosts));
 
 router.post(
   "/addPost",
@@ -33,17 +34,17 @@ router.post(
     { name: "imageContent", maxCount: 1 },
     { name: "videoContent", maxCount: 1 },
   ]),
-  addPost
+  catchAsync(addPost)
 );
-router.delete("/deletePost", protect, deletePost);
-router.delete("/deleteAccount", protect, deleteUserAccount);
-router.put("/changeName", protect, changeName);
-router.put("/changeEmail", protect, changeEmail);
-router.put("/changePassword", protect, changePassword);
-router.put("/editPost", protect, editPost);
-router.put("/addRating", protect, addRating);
-router.get("/previousPosts", protect, getPreviousPost);
-router.get("/searchForPost", protect, searchForPost);
-router.get("/resetPassword", protect, resetPassword);
+router.delete("/deletePost", protect, catchAsync(deletePost));
+router.delete("/deleteAccount", protect, catchAsync(deleteUserAccount));
+router.put("/changeName", protect, catchAsync(changeName));
+router.put("/changeEmail", protect, catchAsync(changeEmail));
+router.put("/changePassword", protect, catchAsync(changePassword));
+router.put("/editPost", protect, catchAsync(editPost));
+router.put("/addRating", protect, catchAsync(addRating));
+router.get("/previousPosts", protect, catchAsync(getPreviousPost));
+router.get("/searchForPost", protect, catchAsync(searchForPost));
+router.get("/resetPassword", protect, catchAsync(resetPassword));
 
 export default router;
