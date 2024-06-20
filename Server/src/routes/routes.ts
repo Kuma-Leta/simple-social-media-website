@@ -9,7 +9,10 @@ import { addPost } from "../Controllers/profileController/addPostController";
 import { deletePost } from "../Controllers/profileController/deletePostController";
 import { editPost } from "../Controllers/profileController/editPostController";
 import { getPreviousPost } from "../Controllers/profileController/previousPostDisplayController";
-import { searchForPost } from "../Controllers/searchForPostController";
+import {
+  searchForPostByCategory,
+  searchForPostByUserQuery,
+} from "../Controllers/searchForPostController";
 import { addRating } from "../Controllers/addRatingController";
 import { protect } from "../middleware/authenticationMiddleware";
 import { changePassword } from "../Controllers/profileController/setting/changePassword";
@@ -42,9 +45,14 @@ router.put("/changeName", protect, catchAsync(changeName));
 router.put("/changeEmail", protect, catchAsync(changeEmail));
 router.put("/changePassword", protect, catchAsync(changePassword));
 router.put("/editPost", protect, catchAsync(editPost));
-router.put("/addRating", protect, catchAsync(addRating));
+router.post("/addRating", protect, catchAsync(addRating));
 router.get("/previousPosts", protect, catchAsync(getPreviousPost));
-router.get("/searchForPost", protect, catchAsync(searchForPost));
+router.post("/searchByCategory", protect, searchForPostByCategory);
+router.post(
+  "/searchByUserQuery",
+  protect,
+  catchAsync(searchForPostByUserQuery)
+);
 router.get("/resetPassword", protect, catchAsync(resetPassword));
 
 export default router;

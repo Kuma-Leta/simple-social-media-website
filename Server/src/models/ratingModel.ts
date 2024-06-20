@@ -1,17 +1,22 @@
-import { Schema, Model, model } from "mongoose";
+import { Request } from "express";
+import mongoose, { Schema, model } from "mongoose";
 interface Rating {
-  user: string;
   rating: number;
+  postId: mongoose.Schema.Types.ObjectId;
+  name: string;
 }
 const ratingSchema = new Schema<Rating>(
   {
-    user: {
-      type: String,
+    rating: {
+      type: Number,
       required: true,
     },
-    rating: {
-      default: 4,
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+    },
+    name: {
+      type: String,
     },
   },
   {

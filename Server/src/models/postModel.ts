@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 
-interface Post {
+export interface Post {
   user: mongoose.Schema.Types.ObjectId;
   textContent: string;
   videoContent?: string;
