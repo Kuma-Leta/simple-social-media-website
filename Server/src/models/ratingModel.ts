@@ -3,7 +3,7 @@ import mongoose, { Schema, model } from "mongoose";
 interface Rating {
   rating: number;
   postId: mongoose.Schema.Types.ObjectId;
-  name: string;
+  user: mongoose.Schema.Types.ObjectId;
 }
 const ratingSchema = new Schema<Rating>(
   {
@@ -14,9 +14,12 @@ const ratingSchema = new Schema<Rating>(
     postId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "posts",
     },
-    name: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
     },
   },
   {

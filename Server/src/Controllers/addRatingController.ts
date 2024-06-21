@@ -9,16 +9,35 @@ export const addRating = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { postId, rating } = req.body;
-  const user = await userModel.findById(req.user.id);
-  if (!user) {
+  const { postId, rating, user } = req.body;
+  const userRating = await userModel.findById(req.user.id);
+  if (!userRating) {
     return next(new AppError("no user found", 404));
   }
-  const name = user?.name;
+  const name = userRating?.name;
+  //implement so that user cannot rate it self
+  const postTobeRated = await (
+    await postModel.find({ user })
+  ).map((post) => {
+    post._id === postId;
+  });
+
+  if (postTobeRated.length !== 0) {
+    return next(new AppError("you cant rate your self", 400));
+  }
+  const allreadyRated = await ratingModel.findOne({
+    name: name,
+    postId: postId,
+  });
+  if (allreadyRated) {
+    return next(new AppError("you can't rate twice", 400));
+  }
+
   const result = await ratingModel.create({
     postId: postId,
     rating: rating,
     name: name,
+    user,
   });
   if (!result) {
     next(new AppError("failed to create rating", 400));

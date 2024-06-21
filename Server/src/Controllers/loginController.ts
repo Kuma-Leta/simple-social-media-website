@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { userModel } from "../models/userModel";
@@ -8,7 +8,11 @@ const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "", { expiresIn: "30d" });
 };
 
-export const loginUsers = async (req: Request, res: Response) => {
+export const loginUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let message = "";
   const { email, password } = req.body;
   const userAccount = await userModel.findOne({ email });
@@ -27,4 +31,5 @@ export const loginUsers = async (req: Request, res: Response) => {
   } else {
     new AppError("incorrect password", 400);
   }
+  next();
 };
