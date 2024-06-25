@@ -13,14 +13,15 @@ export const loginUsers = async (
   res: Response,
   next: NextFunction
 ) => {
-  let message = "";
   const { email, password } = req.body;
+
   const userAccount = await userModel.findOne({ email });
   if (!userAccount) {
-    return;
+    return next(new AppError("No user found", 404));
   }
+
   const isMatch = await bcrypt.compare(password, userAccount.password);
-  console.log(userAccount.password);
+
   if (isMatch) {
     res.status(200).json({
       id: userAccount._id,
@@ -29,7 +30,6 @@ export const loginUsers = async (
       token: generateToken(userAccount.id),
     });
   } else {
-    new AppError("incorrect password", 400);
+    return next(new AppError("Incorrect password", 400));
   }
-  next();
 };
