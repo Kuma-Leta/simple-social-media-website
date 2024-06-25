@@ -1,69 +1,34 @@
-import { AuthenticatedRequest } from "../../middleware/authenticationMiddleware";
-import { UserModel } from "../../models/models";
-import nodemailer from "nodemailer";
-
-import bcrypt from "bcrypt";
-import { Response } from "express";
-import { generatePassword } from "./generatePassword";
+import { AuthenticatedRequest } from "./../../middleware/authenticationMiddleware";
+import { Response, NextFunction } from "express";
+import { userModel } from "../../models/userModel";
+import AppError from "../../globalErrorHandling/appError";
+import crypto from "crypto";
 export const resetPassword = async (
   req: AuthenticatedRequest,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
-  try {
-    // Retrieve the user's ID from the authenticated request
-    const userId = req.user._id;
-    let testAccount = await nodemailer.createTestAccount();
-    // Find the user in the database
-    const user = await UserModel.findById(userId);
-    console.log(user);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
 
-    const email = user.email;
+  const user = await userModel.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
 
-    // Generate a random password
-    const newPassword = generatePassword();
-
-    // Send email with the new password
-    const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
-    });
-
-    const mailOptions = {
-      from: "kumaleta2021@gmail.com", // sender address
-      to: email, // list of receivers
-      subject: "password reset", // Subject line
-      text: "change your password as soon as possible", // plain text body
-      html: `${user.name}"<b>Hello ! your new password is:</b>" ${newPassword}`, // html body
-    };
-
-    await transporter
-      .sendMail(mailOptions)
-      .then((info: any) => {
-        res.status(201).json({
-          message: `Password reset successful. Check your email for the new password.`,
-          info: info.messageId,
-          preview: nodemailer.getTestMessageUrl(info),
-        });
-      })
-      .catch((error: any) => {
-        res.status(500).json({ message: "internal server error" });
-      });
-
-    // Update the user's password in the database
-    const hashedPassword = await bcrypt.hash(newPassword, 10); // Hash the password
-    await UserModel.findByIdAndUpdate(userId, { password: hashedPassword });
-  } catch (error) {
-    console.error("Error resetting password:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while resetting the password." });
+  if (!user) {
+    return next(new AppError("Token is invalid or has expired", 400));
   }
+
+  user.password = req.body.password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  res.status(200).json({
+    status: "success",
+    message: "Password reset successful!",
+  });
 };
