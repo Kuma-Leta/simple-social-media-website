@@ -21,6 +21,7 @@ import { changeName } from "../Controllers/profileController/setting/changeAccou
 import { changeEmail } from "../Controllers/profileController/setting/changeAccount";
 import { resetPassword } from "../Controllers/resetPassword/resetPassword";
 import catchAsync from "../globalErrorHandling/catchAsync";
+import { forgotPassword } from "../Controllers/resetPassword/forgotPassword";
 // import { upload } from "../middleware/uploadMiddleware";
 import multer from "multer";
 import path from "path";
@@ -53,6 +54,7 @@ router.post(
   protect,
   catchAsync(searchForPostByUserQuery)
 );
-router.get("/resetPassword", protect, catchAsync(resetPassword));
+router.patch("/resetPassword/:token", protect, catchAsync(resetPassword));
+router.post("/forgotPassword", protect, catchAsync(forgotPassword));
 
 export default router;
