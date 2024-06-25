@@ -1,22 +1,19 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AuthenticatedRequest } from "../../middleware/authenticationMiddleware";
 import { UserModel } from "../../models/models";
+import { postModel } from "../../models/postModel";
+import AppError from "../../globalErrorHandling/appError";
 export const getPreviousPost = async (
   req: AuthenticatedRequest,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
-  try {
-    // Assuming posts are fetched for the authenticated user
-    const user = await UserModel.findById(req.user._id).select("posts");
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    res.status(200).json({ result: user.posts });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({ error: "Error fetching posts", details: error.message });
+  const previousPosts = await postModel.find({ user: req.user });
+  if (!previousPosts) {
+    return next(new AppError("no post found by this user", 404));
   }
+  res.status(200).json({
+    status: "success",
+    result: previousPosts,
+  });
 };
