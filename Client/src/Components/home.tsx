@@ -1,15 +1,50 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/home.css";
+import axios from "../axiosConfig";
+interface post {
+  _id: string;
+  author: string;
+  textContent: string;
+  imageContent: string;
+  videoContent: string;
+  rating: number;
+}
 const HomePage: React.FC = () => {
-  const [searchItem, setSearchItem] = useState("");
+  const [userQuery, setuserQuery] = useState("");
+  const [posts, setPosts] = useState<post[]>([]);
+  const [error, setError] = useState<any>(null);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSearch();
     }
   };
-  const handleSearch = () => {
-    console.log(searchItem);
+  const handleSearch = async () => {
+    const postResult = await axios.post(
+      "http://localhost:5000/api/searchByUserQuery",
+      { userQuery }
+    );
+    setPosts(postResult.data.posts);
+  };
+  const getByCategory = async (category: string) => {
+    try {
+      if (category === "all") {
+        const allPosts = await axios.get(
+          "http://localhost:5000/api/getAllposts"
+        );
+        return setPosts(allPosts.data.posts);
+      }
+      const postByCategory = await axios.post(
+        "http://localhost:5000/api/searchByCategory",
+        { category }
+      );
+      if (!postByCategory) {
+        setPosts([]);
+      }
+      setPosts(postByCategory.data.posts);
+    } catch (error: any) {
+      setError(error.message);
+    }
   };
   return (
     <div className="homeContainer">
@@ -22,7 +57,7 @@ const HomePage: React.FC = () => {
           <input
             type="text"
             placeholder="search for post"
-            onChange={(e) => setSearchItem(e.target.value)}
+            onChange={(e) => setuserQuery(e.target.value)}
             onKeyDown={handleKeyDown}
           />
         </div>
@@ -31,8 +66,8 @@ const HomePage: React.FC = () => {
         <h1>Categories</h1>
         <hr />
         <div className="items">
-          <button>All</button>
-          <button>Marketing</button>
+          <button onClick={() => getByCategory("all")}>All</button>
+          <button onClick={() => getByCategory("marketing")}>Marketing</button>
           <button>technology</button>
           <button>politics</button>
           <button>sports</button>
@@ -40,8 +75,17 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       <div className="postsContainer">
-        {/* posts will be mapped*/}
-        <div className="eachPost"></div>
+        {posts.map((post: post) => (
+          <div className="eachPost" key={post._id}>
+            <p>Author :{post.author}</p>
+            <p> message :{post.textContent}</p>
+            <img src={`http://localhost:5000/api/${post.imageContent}`} />
+            <video src={`http://localhost:5000/api/${post.videoContent}`} />
+            <p>rating :{post.rating}</p>
+          </div>
+        ))}
+        {posts.length === 0 && <div className="eachPost">No posts Found</div>}
+        {/* {error && <p>{error}</p>}s */}
       </div>
     </div>
   );
