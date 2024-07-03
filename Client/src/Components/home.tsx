@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/home.css";
 import axios from "../axiosConfig";
@@ -14,6 +14,19 @@ const HomePage: React.FC = () => {
   const [userQuery, setuserQuery] = useState("");
   const [posts, setPosts] = useState<post[]>([]);
   const [error, setError] = useState<any>(null);
+  useEffect(() => {
+    const getAllPosts = async () => {
+      try {
+        const allPosts = await axios.get(
+          "http://localhost:5000/api/getAllposts"
+        );
+        setPosts(allPosts.data.posts);
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+    getAllPosts();
+  }, []);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSearch();
@@ -38,7 +51,7 @@ const HomePage: React.FC = () => {
         "http://localhost:5000/api/searchByCategory",
         { category }
       );
-      if (!postByCategory) {
+      if (postByCategory.data.posts === 0) {
         setPosts([]);
       }
       setPosts(postByCategory.data.posts);
@@ -79,8 +92,12 @@ const HomePage: React.FC = () => {
           <div className="eachPost" key={post._id}>
             <p>Author :{post.author}</p>
             <p> message :{post.textContent}</p>
-            <img src={`http://localhost:5000/api/${post.imageContent}`} />
-            <video src={`http://localhost:5000/api/${post.videoContent}`} />
+            {post.imageContent && (
+              <img src={`http://localhost:5000/api/${post.imageContent}`} />
+            )}
+            {post.videoContent && (
+              <video src={`http://localhost:5000/api/${post.videoContent}`} />
+            )}
             <p>rating :{post.rating}</p>
           </div>
         ))}
