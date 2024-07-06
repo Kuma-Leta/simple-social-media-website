@@ -22,7 +22,7 @@ import { changeEmail } from "../Controllers/profileController/setting/changeAcco
 import { resetPassword } from "../Controllers/resetPassword/resetPassword";
 import catchAsync from "../globalErrorHandling/catchAsync";
 import { forgotPassword } from "../Controllers/resetPassword/forgotPassword";
-// import { upload } from "../middleware/uploadMiddleware";
+import { getUserRating } from "../Controllers/getUserRating";
 import multer from "multer";
 import path from "path";
 const router = express.Router();
@@ -56,5 +56,9 @@ router.post(
 );
 router.patch("/resetPassword/:token", protect, catchAsync(resetPassword));
 router.post("/forgotPassword", protect, catchAsync(forgotPassword));
-
+router.get(
+  "/getUserRating/:postId/:userId",
+  protect,
+  catchAsync(getUserRating)
+);
 export default router;
