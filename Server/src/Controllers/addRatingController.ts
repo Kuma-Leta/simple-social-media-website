@@ -16,14 +16,13 @@ export const addRating = async (
   }
   const name = userRating?.name;
   //implement so that user cannot rate it self
-  const postTobeRated = await (
-    await postModel.find({ user })
-  ).map((post) => {
-    post._id === postId;
-  });
+  const post = await postModel.findById(postId);
+  if (!post) {
+    return next(new AppError("Post not found", 404));
+  }
 
-  if (postTobeRated.length !== 0) {
-    return next(new AppError("you cant rate your self", 400));
+  if (post.user.toString() === req.user.id) {
+    return next(new AppError("You can't rate your own post", 400));
   }
   const allreadyRated = await ratingModel.findOne({
     name: name,
