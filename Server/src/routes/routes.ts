@@ -40,7 +40,7 @@ router.post(
   ]),
   catchAsync(addPost)
 );
-router.delete("/deletePost", protect, catchAsync(deletePost));
+router.delete("/deletePost/:postId", protect, catchAsync(deletePost));
 router.delete("/deleteAccount", protect, catchAsync(deleteUserAccount));
 router.put("/changeName", protect, catchAsync(changeName));
 router.put("/changeEmail", protect, catchAsync(changeEmail));

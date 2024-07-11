@@ -7,11 +7,12 @@ export const deletePost = async (
   res: Response,
   next: NextFunction
 ) => {
-  const postId = req.params.id;
+  const postId = req.params.postId;
   const Post = await postModel.findById(postId);
   if (!Post) {
-    return new AppError("no post found", 404);
+    return next(new AppError("no post found", 404));
   }
   const result = await postModel.findByIdAndDelete(postId);
-  next();
+  res.status(200).json({ message: "deleted successfully" });
+  console.log(" post deleted");
 };
