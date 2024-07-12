@@ -24,6 +24,7 @@ import catchAsync from "../globalErrorHandling/catchAsync";
 import { forgotPassword } from "../Controllers/resetPassword/forgotPassword";
 import { getUserRating } from "../Controllers/getUserRating";
 import getSpecificPost from "../Controllers/profileController/getSpecificPost";
+import getSpecificUser from "../Controllers/profileController/getSpecificUser";
 import multer from "multer";
 import path from "path";
 const router = express.Router();
@@ -72,4 +73,5 @@ router.put(
   protect,
   catchAsync(updatePost)
 );
+router.get("/getUser/:token", protect, catchAsync(getSpecificUser));
 export default router;
