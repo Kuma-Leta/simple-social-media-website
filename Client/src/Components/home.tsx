@@ -16,9 +16,15 @@ const HomePage: React.FC = () => {
   const [userQuery, setuserQuery] = useState("");
   const [posts, setPosts] = useState<post[]>([]);
   const [rating, setRating] = useState<number>(4);
+  const [user, setUser] = useState("");
   useEffect(() => {
     const getAllPosts = async () => {
       try {
+        const token = await localStorage.getItem("authToken");
+        const user = await axios.get(
+          `http://localhost:5000/api/getUser/${token}`
+        );
+        setUser(user.data.User.name);
         const allPosts = await axios.get(
           "http://localhost:5000/api/getAllposts"
         );
@@ -71,7 +77,7 @@ const HomePage: React.FC = () => {
         <Link to={"/home"}>Blog Post.</Link>
       </h1>
       <div className="profileAndSearchContainer">
-        <Link to={"/profile"}>kuma leta</Link>
+        <Link to={"/profile"}>{user}</Link>
         <div>
           <input
             type="text"
