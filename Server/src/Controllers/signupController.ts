@@ -16,20 +16,21 @@ export const createUsers = async (
   const { name, email, password } = req.body;
   const userAlreadyExists = await userModel.findOne({ email });
   if (userAlreadyExists) {
-    new AppError("User already exists", 400);
+    return next(new AppError("User already exists", 400));
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // const hashedPassword = await bcrypt.hash(password, 10);
   const userAccount = new userModel({
     email,
-    password: hashedPassword,
+    password,
     name,
   });
   await userAccount.save();
+
   res.status(201).json({
     id: userAccount._id,
     name: userAccount.name,
     email: userAccount.email,
     token: generateToken(userAccount.id),
   });
-  next();
 };

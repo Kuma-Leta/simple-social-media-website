@@ -6,7 +6,7 @@ interface Post {
   _id: string;
   author: string;
   textContent: string;
-  categories: string;
+  category: string;
   imageContent?: string;
   videoContent?: string;
   user: string;
@@ -18,7 +18,7 @@ const EditPost: React.FC = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(state?.post);
   const [author, setAuthor] = useState(post?.author || "");
-  const [category, setCategory] = useState(post?.categories || "");
+  const [category, setCategory] = useState(post?.category || "");
   const [textContent, setTextContent] = useState(post?.textContent || "");
   const [imageContent, setImageContent] = useState<File | null>(null);
   const [videoContent, setVideoContent] = useState<File | null>(null);
@@ -31,11 +31,11 @@ const EditPost: React.FC = () => {
       const fetchPost = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/posts/${id}`
+            `http://localhost:5000/api/getSpecificPost/${id}`
           );
           setPost(response.data);
           setAuthor(response.data.author);
-          setCategory(response.data.categories);
+          setCategory(response.data.category);
           setTextContent(response.data.textContent);
         } catch (error) {
           console.error("Failed to fetch post", error);
@@ -61,7 +61,7 @@ const EditPost: React.FC = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/posts/${id}`,
+        `http://localhost:5000/api/editPost/${id}`,
         formData,
         {
           headers: {

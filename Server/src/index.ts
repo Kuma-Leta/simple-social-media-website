@@ -1,4 +1,5 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
+import path from "path";
 import routes from "./routes/routes";
 import { Router } from "express";
 import { connectDB } from "./connectDb";
@@ -8,13 +9,13 @@ import globalErrorHandler from "./globalErrorHandling/globalErrorHandler";
 import AppError from "./globalErrorHandling/appError";
 // const router = express.Router();
 const app = express();
-app.use("/uploads", express.static("uploads"));
 connectDB();
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/api", routes);
-app.all("*", (req, res, next) => {
+app.all("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server!`, 404));
 });
 app.use(globalErrorHandler);

@@ -1,22 +1,22 @@
 import React from "react";
 // import "./styles/index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AddPost from "./Components/Profile/addPost";
+import AddPost from "./Components/post/profile/addPost";
 // import DeletePost from "./Components/Profile/deletePost";
-import EditPost from "./Components/Profile/editPost";
-import PreviousPosts from "./Components/Profile/PreviousPosts";
-import AllPosts from "./Components/allPosts";
-import Login from "./Components/login";
-import Signup from "./Components/signup";
+import EditPost from "./Components/post/profile/editPost";
+import PreviousPosts from "./Components/post/profile/PreviousPosts";
+import AllPosts from "./Components/post/allPosts";
+import Login from "./Components/users/login";
+import Signup from "./Components/users/signup";
 import NotFound from "./Components/notFound";
 import HomePage from "./Components/home";
 import SystemOverview from "./Components/systemOverview";
 import { PrivateRoutes } from "./privateRoutes";
-import Profile from "./Components/Profile/profile";
-import Settings from "./Components/Profile/userSettings/settings";
-import ChangeYourName from "./Components/Profile/userSettings/changeName";
-import ChangeYourPassword from "./Components/Profile/userSettings/changePassword";
-import ChangeEmail from "./Components/Profile/userSettings/changeEmail";
+import Profile from "./Components/post/profile/profile";
+import Settings from "./Components/settings/settings";
+import ChangeYourName from "./Components/settings/changeName";
+import ChangeYourPassword from "./Components/settings/changePassword";
+import ChangeEmail from "./Components/settings/changeEmail";
 const App: React.FC = () => {
   return (
     <>
@@ -83,7 +83,7 @@ const App: React.FC = () => {
             }
           />
           <Route
-            path="/profile/editPost"
+            path="/profile/editPost/:id"
             element={
               <PrivateRoutes>
                 <EditPost />

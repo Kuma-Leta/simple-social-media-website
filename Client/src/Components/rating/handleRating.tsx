@@ -58,7 +58,8 @@ const Rating: React.FC<RatingProps> = ({
           key={value}
           onClick={() => handleRating(value)}
           style={{
-            color: rating !== null && value <= rating ? "gold" : "gray",
+            backgroundColor:
+              rating !== null && value <= rating ? "gold" : "gray",
           }}
         >
           ⭐

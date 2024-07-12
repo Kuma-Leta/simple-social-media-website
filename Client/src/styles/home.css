@@ -34,3 +34,26 @@ h1 a {
   color: white;
   padding: 0.5rem;
 }
+.postsContainer {
+  /* background-color: whitesmoke; */
+  display: grid;
+  padding: 1rem;
+  gap: 1rem;
+  grid-template-columns: auto auto auto;
+}
+.eachPost {
+  padding: 1rem;
+  background-color: whitesmoke;
+  /* color: white; */
+  /* border: 2px solid green; */
+  border-radius: 1rem;
+}
+.postDropdown {
+  display: flex;
+  justify-content: flex-end;
+}
+.rateRequest {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1px;
+}

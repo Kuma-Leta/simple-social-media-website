@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosConfig";
 import "../../../styles/profile/previousPost.css";
+import { useNavigate } from "react-router-dom";
 interface Post {
   _id: string;
   author: string;
@@ -15,6 +16,7 @@ const PreviousPosts: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [dropdownVisible, setDropdownVisible] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPreviousPosts = async () => {
@@ -43,13 +45,13 @@ const PreviousPosts: React.FC = () => {
     setDropdownVisible(dropdownVisible === postId ? null : postId);
   };
 
-  const handleEdit = (postId: string) => {
-    console.log("Edit post:", postId);
-    // Implement edit functionality
+  const handleEdit = (post: Post) => {
+    navigate(`/profile/editPost/${post._id}`, { state: { post } });
   };
 
   const handleDelete = async (postId: string) => {
     try {
+      prompt("are you sure you want to delete the post");
       await axios.delete(`http://localhost:5000/api/deletePost/${postId}`);
       setPreviousPosts(previousPosts.filter((post) => post._id !== postId));
     } catch (error: any) {
@@ -66,8 +68,10 @@ const PreviousPosts: React.FC = () => {
               <button onClick={() => toggleDropdown(post._id)}>...</button>
               {dropdownVisible === post._id && (
                 <div className="dropdownMenu">
-                  <button onClick={() => handleEdit(post._id)}>Edit</button>
-                  <button onClick={() => handleDelete(post._id)}>Delete</button>
+                  <button onClick={() => handleEdit(post)}>Edit post</button>
+                  <button onClick={() => handleDelete(post._id)}>
+                    Delete post
+                  </button>
                 </div>
               )}
             </div>

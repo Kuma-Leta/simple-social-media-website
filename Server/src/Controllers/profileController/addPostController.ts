@@ -17,7 +17,7 @@ export const addPost = async (
 ) => {
   const multerReq = req as MulterRequest;
   if (!multerReq.user || !multerReq.user._id) {
-    return new AppError("Unauthorized request", 401);
+    return next(new AppError("Unauthorized request", 401));
   }
 
   console.log(multerReq.user._id);
@@ -28,20 +28,20 @@ export const addPost = async (
   const user = await userModel.findById(userId);
 
   if (!user) {
-    return new AppError("User not found", 404);
+    return next(new AppError("User not found", 404));
   }
   if (!author || !textContent || !category) {
-    return new AppError("All fields are required", 400);
+    return next(new AppError("All fields are required", 400));
   }
   const newPost = {
     author,
     textContent,
     category,
     imageContent: multerReq.files?.imageContent
-      ? multerReq.files.imageContent[0].path
+      ? multerReq.files.imageContent[0].path.replace(/\\/g, "/")
       : "",
     videoContent: multerReq.files?.videoContent
-      ? multerReq.files.videoContent[0].path
+      ? multerReq.files.videoContent[0].path.replace(/\\/g, "/")
       : "",
     user: userId,
   };
@@ -51,5 +51,4 @@ export const addPost = async (
   // const updatedUser = await user.save();
 
   res.status(201).json(Post);
-  next();
 };

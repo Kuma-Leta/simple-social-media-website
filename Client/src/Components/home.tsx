@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/home.css";
 import axios from "../axiosConfig";
+import Rating from "./rating/handleRating";
 interface post {
   _id: string;
   author: string;
@@ -9,17 +10,19 @@ interface post {
   imageContent: string;
   videoContent: string;
   rating: number;
+  user: string;
 }
 const HomePage: React.FC = () => {
   const [userQuery, setuserQuery] = useState("");
   const [posts, setPosts] = useState<post[]>([]);
-  const [error, setError] = useState<any>(null);
+  const [rating, setRating] = useState<number>(4);
   useEffect(() => {
     const getAllPosts = async () => {
       try {
         const allPosts = await axios.get(
           "http://localhost:5000/api/getAllposts"
         );
+        console.log(allPosts);
         setPosts(allPosts.data.posts);
       } catch (error: any) {
         console.log(error.message);
@@ -31,6 +34,9 @@ const HomePage: React.FC = () => {
     if (event.key === "Enter") {
       handleSearch();
     }
+  };
+  const updateRating = async (newValue: number) => {
+    setRating(newValue);
   };
   const handleSearch = async () => {
     const postResult = await axios.post(
@@ -79,26 +85,46 @@ const HomePage: React.FC = () => {
         <h1>Categories</h1>
         <hr />
         <div className="items">
-          <button onClick={() => getByCategory("all")}>All</button>
-          <button onClick={() => getByCategory("marketing")}>Marketing</button>
-          <button>technology</button>
-          <button>politics</button>
-          <button>sports</button>
-          <button>Arts</button>
+          {["all", "marketing", "technology", "politics", "sports", "arts"].map(
+            (category, index) => (
+              <button key={index} onClick={() => getByCategory(category)}>
+                {category}
+              </button>
+            )
+          )}
         </div>
       </div>
       <div className="postsContainer">
         {posts.map((post: post) => (
           <div className="eachPost" key={post._id}>
-            <p>Author :{post.author}</p>
+            <div className="postDropdown">
+              <button>...</button>
+            </div>
+            <p>Author 🌟:{post.author}</p>
             <p> message :{post.textContent}</p>
             {post.imageContent && (
-              <img src={`http://localhost:5000/api/${post.imageContent}`} />
+              <div>
+                <img
+                  src={`http://localhost:5000/${post.imageContent}`}
+                  alt="Post"
+                />
+              </div>
             )}
             {post.videoContent && (
-              <video src={`http://localhost:5000/api/${post.videoContent}`} />
+              <div>
+                <video
+                  src={`http://localhost:5000/${post.videoContent}`}
+                  controls
+                />
+              </div>
             )}
-            <p>rating :{post.rating}</p>
+            <p>rating :{post.rating.toFixed(1)}</p>
+            <Rating
+              postId={post._id}
+              initialRating={post.rating}
+              user={post.user}
+              updateRating={updateRating}
+            />
           </div>
         ))}
         {posts.length === 0 && <div className="eachPost">No posts Found</div>}
