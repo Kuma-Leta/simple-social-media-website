@@ -25,6 +25,8 @@ import { forgotPassword } from "../Controllers/resetPassword/forgotPassword";
 import { getUserRating } from "../Controllers/getUserRating";
 import getSpecificPost from "../Controllers/profileController/getSpecificPost";
 import getSpecificUser from "../Controllers/profileController/getSpecificUser";
+import addLikeForPost from "../Controllers/likeController";
+import addCommentForPost from "../Controllers/commentController";
 import multer from "multer";
 import path from "path";
 const router = express.Router();
@@ -74,4 +76,6 @@ router.put(
   catchAsync(updatePost)
 );
 router.get("/getUser/:token", protect, catchAsync(getSpecificUser));
+router.post("/likePost", protect, catchAsync(addLikeForPost));
+router.post("giveComment", protect, catchAsync(addCommentForPost));
 export default router;
