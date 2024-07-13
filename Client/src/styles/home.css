@@ -1,3 +1,77 @@
+.postsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.eachPost {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 15px;
+  padding: 20px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postDropdown {
+  align-self: flex-end;
+}
+
+.author {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.message {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.mediaContent {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.mediaContent img,
+.mediaContent video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.LCcontainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.likeAndComment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.likeAndComment p {
+  margin-bottom: 5px;
+}
+
+.likeAndComment button {
+  margin: 5px 0;
+  padding: 5px 10px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.likeAndComment button:hover {
+  background: #ddd;
+}
+
 .profileAndSearchContainer {
   display: grid;
   grid-template-columns: 40% 60%;
@@ -11,6 +85,10 @@
   width: 80%;
   padding: 1.5rem;
   border-radius: 1rem;
+}
+.profileAndSearchContainer a {
+  color: white;
+  text-decoration: none;
 }
 .homeContainer {
   background-color: rgb(9, 9, 44);
@@ -35,18 +113,24 @@ h1 a {
   padding: 0.5rem;
 }
 .postsContainer {
-  /* background-color: whitesmoke; */
+   background-color: whitesmoke; 
+  position: relative;
   display: grid;
   padding: 1rem;
   gap: 1rem;
   grid-template-columns: auto auto auto;
 }
-.eachPost {
-  padding: 1rem;
-  background-color: whitesmoke;
+/* .eachPost { */
+  /* padding: 1rem; */
+  /* background-color: whitesmoke; */
   /* color: white; */
-  /* border: 2px solid green; */
+  /* border: 2px solid green; 
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
   border-radius: 1rem;
+  overflow: auto;
 }
 .postDropdown {
   display: flex;
@@ -57,3 +141,22 @@ h1 a {
   justify-content: flex-end;
   gap: 1px;
 }
+.LCcontainer {
+  display: flex;
+  justify-content: stretch;
+  /* align-items: center; 
+  gap: 1rem;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+.author {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.25rem;
+}
+.likeAndComment {
+  display: flex;
+  justify-content: stretch;
+  gap: 1rem;
+} 
