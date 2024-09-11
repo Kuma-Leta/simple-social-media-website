@@ -1,39 +1,164 @@
-.postsContainer {
+.homeContainer {
+  min-height: 100vh;
+  position: relative;
+  transition: filter 0.3s ease-in-out;
+}
+
+.homeContainer.blur {
+  /* filter: blur(5px); */
+}
+.categoriesContainer {
+  position: relative;
+}
+
+.notifications .notSize {
+  color: white;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  border-radius: 50%;
+  background-color: brown;
+}
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgb(9, 9, 44);
+  padding: 1rem;
+}
+
+.profileAndSearchContainer {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: center;
+}
+
+.profileAndSearchContainer div input {
+  height: 2rem;
+  outline: none;
+  border: none;
+  width: 80%;
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.profileAndSearchContainer a,
+h1 a {
+  color: white;
+  text-decoration: none;
+}
+
+.postAndSystemOptionsContainer {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
+  margin-top: 5rem; /* Adjust for fixed header */
+}
+
+.sytemOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+  position: fixed;
+  left: 2rem;
+  top: 7rem; /* Adjust for fixed header */
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.sytemOptions button {
+  color: black;
+  font-size: 1.5rem;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: flex-start;
+}
+.sytemOptions button:hover {
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: flex-start;
+  transition: all 0.3s ease-in-out;
+}
+.categories {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: all 0.3s ease-in-out;
+}
+.categoriesContainer:hover .categories {
+  position: absolute;
+  display: block;
+  transform: translatex(10px);
+
+  z-index: 100;
+}
+.categories ul {
+  list-style: none;
+  margin: 0;
+
+  /* padding: 10px; */
+}
+.categories li {
+  /* padding: 10px; */
+  display: flex;
+  align-items: flex-start;
+  color: black;
+  margin: 0;
+  cursor: pointer;
+}
+.categories li:hover {
+  background-color: black;
+  color: white;
+}
+.postsContainer {
+  margin-left: 15rem; /* Adjust for fixed system options */
+  margin-top: 5rem; /* Adjust for fixed header */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+}
+
+.postsContainer .post {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  align-items: flex-start;
 }
 
 .eachPost {
-  background: #fff;
-  border-radius: 10px;
+  flex: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 15px;
-  padding: 20px;
-  width: 300px;
+  background-color: #fff;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 10px;
+}
+
+.author {
+  font-weight: bold;
 }
 
 .postDropdown {
   align-self: flex-end;
 }
 
-.author {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.message {
-  margin: 10px 0;
-  text-align: center;
-}
-
-.mediaContent {
-  width: 100%;
-  margin: 10px 0;
+.textContent {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .mediaContent img,
@@ -44,7 +169,7 @@
 
 .LCcontainer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
   margin-top: 10px;
 }
@@ -53,10 +178,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.likeAndComment p {
-  margin-bottom: 5px;
 }
 
 .likeAndComment button {
@@ -72,91 +193,201 @@
   background: #ddd;
 }
 
-.profileAndSearchContainer {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  padding: 1rem;
+.likeRatingComment {
+  display: flex;
   align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
 }
-.profileAndSearchContainer div input {
-  height: 2rem;
+
+.addComment {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 1rem;
+}
+
+.addComment input {
+  width: 100px;
+  height: 25px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
   outline: none;
   border: none;
-  width: 80%;
+}
+
+.commentsContainer {
+  flex: 1;
   padding: 1.5rem;
-  border-radius: 1rem;
-}
-.profileAndSearchContainer a {
-  color: white;
-  text-decoration: none;
-}
-.homeContainer {
-  background-color: rgb(9, 9, 44);
-  min-height: 100vh;
-}
-h1 a {
-  text-decoration: none;
-  color: white;
-}
-.items {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-}
-.items button {
-  display: flex;
-  padding: 0.5rem;
-  font-weight: 500;
-}
-.categories h1 {
-  color: white;
-  padding: 0.5rem;
-}
-.postsContainer {
-   background-color: whitesmoke; 
-  position: relative;
-  display: grid;
-  padding: 1rem;
-  gap: 1rem;
-  grid-template-columns: auto auto auto;
-}
-/* .eachPost { */
-  /* padding: 1rem; */
-  /* background-color: whitesmoke; */
-  /* color: white; */
-  /* border: 2px solid green; 
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.commentsContainer h3 {
+  margin: 0;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.commentsContainer .noComments {
+  color: #999;
+  font-style: italic;
+}
+
+/* Ensure the comment list is scrollable */
+.commentsContainer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1; /* Ensures the comments take up remaining space */
+}
+
+.commentsContainer li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.comment p {
+  margin: 0.25rem 0;
+}
+
+.comment small {
+  color: #666;
+}
+
+/* Make sure the add comment section is always at the bottom */
+.addComment {
+  display: flex;
   gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #ddd;
+  background-color: #fff;
+  position: sticky;
+  bottom: 0;
+}
+
+.addComment input[type="text"] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+
+.addComment input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+.addComment input[type="submit"] {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.addComment input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Scrollbar customization (optional) */
+.commentsContainer ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+.commentsContainer ul::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.commentsContainer ul::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.commentsContainer ul::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.profileAndSearchContainer div .notifications {
+  font-size: 1.5rem;
+  cursor: pointer;
   position: relative;
-  border-radius: 1rem;
-  overflow: auto;
+  justify-content: center;
 }
-.postDropdown {
-  display: flex;
-  justify-content: flex-end;
-}
-.rateRequest {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1px;
-}
-.LCcontainer {
-  display: flex;
-  justify-content: stretch;
-  /* align-items: center; 
-  gap: 1rem;
+.profileAndSearchContainer div .notifications span {
+  color: white;
   position: absolute;
-  bottom: 1rem;
-  left: 1rem;
+  top: -10px;
+  right: -5px;
+  background-color: red;
+  border-radius: 50%;
+  padding: 2px 4px;
+  font-size: 12px;
 }
-.author {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.25rem;
+.menuAndSystemOption {
+  display: grid;
+  grid-template-columns: 5% 95%;
+  position: relative;
 }
-.likeAndComment {
+.menu {
   display: flex;
-  justify-content: stretch;
-  gap: 1rem;
-} 
+  align-items: flex-start;
+  position: fixed;
+  color: black;
+  left: 3px;
+  top: 8rem;
+  background-color: black;
+}
+.menuAndSystemOption .menu button {
+  width: 2rem;
+  height: 25px;
+  padding: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+}
+@media screen and (max-width: 400px) {
+  .homeContainer
+    .postAndSystemOptionsContainer
+    .menuAndSystemOption
+    .sytemOptions {
+    display: none;
+  }
+}
+.loading {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3498db;
+  text-align: center;
+  margin-top: 20px;
+  letter-spacing: 3px;
+  animation: loading-animation 1.5s infinite;
+}
+
+@keyframes loading-animation {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
