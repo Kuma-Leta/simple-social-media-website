@@ -2,7 +2,9 @@ import { Post, selectPosts } from "../../store/postSlice";
 import Rating from "./handleRating";
 import axios from "../../axiosConfig";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 const Posts: React.FC<Post> = ({ post }) => {
+  const [showmore, setShowMore] = useState(false);
   const posts = useSelector(selectPosts);
   const handleLikes = async (postId: string) => {
     const result = await axios.post("http://localhost:5000/api/likePost", {
@@ -23,7 +25,12 @@ const Posts: React.FC<Post> = ({ post }) => {
       <p className="author">
         <span className="onlinePresense">.</span> Author :{post.author}
       </p>
-      <p className="textContent"> {post.textContent}</p>
+      <p className="textContent">
+        {showmore ? post.textContent : post.textContent.substring(0, 100)}
+        {!showmore && (
+          <button onClick={() => setShowMore(true)}>showmore</button>
+        )}
+      </p>
       {post.imageContent && (
         <div>
           <img src={`http://localhost:5000/${post.imageContent}`} alt="Post" />
