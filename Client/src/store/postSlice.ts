@@ -36,7 +36,7 @@ export const fetchPosts = createAsyncThunk<Post[]>(
       console.log(response);
       return response.data.posts as Post[];
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message) || "failed to fetch posts";
+      return thunkAPI.rejectWithValue(error) || "failed to fetch posts";
     }
   }
 );
@@ -50,7 +50,7 @@ export const searchPosts = createAsyncThunk(
       );
       return postResult.data.posts as Post[];
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message) || "failed to fetch posts";
+      return thunkAPI.rejectWithValue(error) || "failed to fetch posts";
     }
   }
 );
@@ -82,18 +82,18 @@ const postSlice = createSlice({
       });
 
     builder
-      .addCase(searchPosts.pending, async (state) => {
+      .addCase(searchPosts.pending, (state) => {
         state.error = null;
         state.isLoading = true;
       })
       .addCase(
         searchPosts.fulfilled,
-        async (state, action: PayloadAction<Post[]>) => {
+        (state, action: PayloadAction<Post[]>) => {
           state.isLoading = false;
           state.posts = action.payload;
         }
       )
-      .addCase(searchPosts.rejected, async (state, action) => {
+      .addCase(searchPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
