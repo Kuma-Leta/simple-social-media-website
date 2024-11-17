@@ -8,7 +8,7 @@ const getSpecificPost = async (
   next: NextFunction
 ) => {
   const id = req.params.id;
-  const post = await postModel.findById(id);
+  const post = await postModel.findById(id).populate("comments");
   if (!post) {
     return next(new AppError("no post found for id", 404));
   }

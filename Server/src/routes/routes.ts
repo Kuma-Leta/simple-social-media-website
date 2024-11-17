@@ -26,7 +26,8 @@ import { getUserRating } from "../Controllers/getUserRating";
 import getSpecificPost from "../Controllers/profileController/getSpecificPost";
 import getSpecificUser from "../Controllers/profileController/getSpecificUser";
 import addLikeForPost from "../Controllers/likeController";
-import addCommentForPost from "../Controllers/commentController";
+import addCommentForPost from "../Controllers/comment/commentController";
+import getCommentsForAPost from "../Controllers/comment/getCommentsForAPost";
 import multer from "multer";
 import path from "path";
 const router = express.Router();
@@ -52,7 +53,11 @@ router.put("/changePassword", protect, catchAsync(changePassword));
 
 router.post("/addRating", protect, catchAsync(addRating));
 router.get("/previousPosts", protect, catchAsync(getPreviousPost));
-router.post("/searchByCategory", protect, catchAsync(searchForPostByCategory));
+router.get(
+  "/searchByCategory/:category",
+  protect,
+  catchAsync(searchForPostByCategory)
+);
 router.post(
   "/searchByUserQuery",
   protect,
@@ -77,5 +82,6 @@ router.put(
 );
 router.get("/getUser/:token", protect, catchAsync(getSpecificUser));
 router.post("/likePost", protect, catchAsync(addLikeForPost));
-router.post("giveComment", protect, catchAsync(addCommentForPost));
+router.post("/giveComment", protect, catchAsync(addCommentForPost));
+router.get("/getCommentForAPost/:postId", catchAsync(getCommentsForAPost));
 export default router;

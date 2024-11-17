@@ -60,7 +60,7 @@ const PreviousPosts: React.FC = () => {
   };
   return (
     <div>
-      <h1>All Posts</h1>
+      <h1>your Posts</h1>
       <div className="container">
         {previousPosts.map((post, index) => (
           <div className="eachPost" key={post._id}>

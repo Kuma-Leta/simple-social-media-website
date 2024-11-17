@@ -5,17 +5,17 @@ import AppError from "../globalErrorHandling/appError";
 import catchAsync from "../globalErrorHandling/catchAsync";
 export const searchForPostByCategory = catchAsync(
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const { category } = req.body;
+    const category = req.params.category;
     if (!category) {
       return next(new AppError("no category found", 404));
     }
-    const post = await postModel.find({ category });
-    if (post.length === 0) {
+    const posts = await postModel.find({ category });
+    if (posts.length === 0) {
       return next(
         new AppError("there is no post for categories you are looking for", 404)
       );
     }
-    res.status(200).json({ message: "success", post });
+    res.status(200).json({ message: "success", posts });
   }
 );
 export const searchForPostByUserQuery = async (
@@ -24,6 +24,7 @@ export const searchForPostByUserQuery = async (
   next: NextFunction
 ) => {
   const { userQuery } = req.body;
+  // console.log(userQuery);
   if (!userQuery) {
     next(new AppError("no user query found", 400));
   }
@@ -31,10 +32,9 @@ export const searchForPostByUserQuery = async (
   const searchConditions = {
     $or: [{ author: regex }, { textContent: regex }, { category: regex }],
   };
-  const posts = await postModel.find(searchConditions);
+  const posts = await postModel.find(searchConditions).populate("comments");
   if (!posts) {
     return new AppError("no post found", 404);
   }
-  res.status(200).json({ message: "success", posts });
-  next();
+  return res.status(200).json({ message: "success", posts });
 };

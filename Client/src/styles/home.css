@@ -19,7 +19,7 @@
   background-color: brown;
 }
 header {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 1000;
@@ -50,7 +50,7 @@ h1 a {
 
 .postAndSystemOptionsContainer {
   display: flex;
-  margin-top: 5rem; /* Adjust for fixed header */
+  /* margin-top: 1rem; Adjust for fixed header */
 }
 
 .sytemOptions {
@@ -122,7 +122,7 @@ h1 a {
 }
 .postsContainer {
   margin-left: 15rem; /* Adjust for fixed system options */
-  margin-top: 5rem; /* Adjust for fixed header */
+  /* margin-top: 5rem;  */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -146,10 +146,22 @@ h1 a {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
+  padding-top: 0;
 }
 
 .author {
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  /* width: 100px; */
+}
+.onlinePresense {
+  font-size: 48px;
+  color: rgb(34, 218, 34);
+  text-align: center;
 }
 
 .postDropdown {
@@ -199,7 +211,13 @@ h1 a {
   justify-content: flex-start;
   gap: 1rem;
 }
-
+.commentList {
+  position: relative;
+}
+.commentList form {
+  position: sticky;
+  bottom: 0;
+}
 .addComment {
   display: flex;
   /* flex-direction: column; */
@@ -211,9 +229,11 @@ h1 a {
   height: 25px;
   border-radius: 5px;
   font-size: 16px;
-  cursor: pointer;
+  /* cursor: pointer; */
   outline: none;
   border: none;
+  position: sticky;
+  bottom: 0;
 }
 
 .commentsContainer {
@@ -364,6 +384,10 @@ h1 a {
     .menuAndSystemOption
     .sytemOptions {
     display: none;
+  }
+  .postAndSystemOptionsContainer {
+    position: sticky;
+    left: 0;
   }
 }
 .loading {

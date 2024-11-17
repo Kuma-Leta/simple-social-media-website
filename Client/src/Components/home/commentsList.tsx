@@ -9,7 +9,6 @@ import axios from "../../axiosConfig";
 const CommentsList: React.FC<Post> = ({ post }) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState(post.comments);
-  const dispatch = useDispatch<AppDispatch>();
   const handleAddComment = async (event: FormEvent) => {
     event.preventDefault();
     const response = await axios.post("http://localhost:5000/api/giveComment", {
@@ -23,7 +22,7 @@ const CommentsList: React.FC<Post> = ({ post }) => {
   return (
     <div className="commentsContainer">
       <h3>Comments</h3>
-      {post.comments.length === 0 && (
+      {comments.length === 0 && (
         <p className="noComments">No Comments yet be the first to comment</p>
       )}
       <ul>
@@ -60,7 +59,7 @@ const CommentsList: React.FC<Post> = ({ post }) => {
           <button
             type="submit"
             // onClick={() => dispatch(AddComment({ postId: post._id }))}
-            disabled={!commentText}
+            // disabled={!commentText}
             className="fas fa-paper-plane"
           ></button>
         )}

@@ -6,10 +6,10 @@ interface Like {
   user: mongoose.Schema.Types.ObjectId;
 }
 const likeSchema = new Schema({
-  value: {
-    type: Number,
-    required: true,
-  },
+  // value: {
+  //   type: Number,
+  //   required: true,
+  // },
   postId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "post",

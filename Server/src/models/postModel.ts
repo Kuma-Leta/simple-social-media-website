@@ -1,6 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
+import { CommentSchema } from "./commentModel";
 
-export interface Post {
+export interface Post extends Document {
   user: mongoose.Schema.Types.ObjectId;
   textContent: string;
   videoContent?: string;
@@ -8,6 +9,8 @@ export interface Post {
   author: string;
   category: string;
   rating?: number;
+  likes?: number;
+  comments?: Comment[];
 }
 const postSchema = new Schema<Post>({
   user: {
@@ -38,5 +41,12 @@ const postSchema = new Schema<Post>({
     type: String,
     required: true,
   },
+  likes: Number,
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "comments",
+    },
+  ],
 });
 export const postModel = model("post", postSchema);

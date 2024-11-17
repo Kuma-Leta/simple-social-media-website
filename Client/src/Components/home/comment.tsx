@@ -1,7 +1,7 @@
 import axios from "../../axiosConfig";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import "../../styles/comment.css";
+// import "../../styles/comment.css";
 import { FormEvent } from "react";
 // import post from './home'
 interface Comment {
@@ -35,6 +35,9 @@ const CommentPopup: React.FC<CommentPopupProps> = ({ onClose, postId }) => {
       comment,
     });
     comments.push(result.data.savedComment);
+    comments.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
     setComment("");
   };
   useEffect(() => {
@@ -50,45 +53,61 @@ const CommentPopup: React.FC<CommentPopupProps> = ({ onClose, postId }) => {
   }, [postId]);
   return (
     <div className="popup">
-      <div className="popupContent">
-        <button className="closeButton" onClick={onClose}>
+      <div className="popupContent relative block ">
+        <button
+          className="closeButton sticky top-0 z-10 cursor-pointer"
+          onClick={onClose}
+        >
           &times;
         </button>
-        <div className="post">
-          <h2>{Post?.author}'s Post </h2>
-          <p className="Author">author:{Post?.author}</p>
-          <p className="textContent"> {Post?.textContent}</p>
+        <div className="post bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            {Post?.author}'s Post
+          </h2>
+          <p className="text-gray-600 text-sm mb-2">
+            <span className="font-bold">Author:</span> {Post?.author}
+          </p>
+          <p className="text-gray-700 leading-relaxed mb-4 text-justify font-serif">
+            {Post?.textContent}
+          </p>
           {Post?.imageContent && (
-            <div>
+            <div className="mb-4">
               <img
+                className="w-full h-auto rounded-lg"
                 src={`http://localhost:5000/${Post?.imageContent}`}
                 alt="Post?"
               />
             </div>
           )}
           {Post?.videoContent && (
-            <div>
+            <div className="mb-4">
               <video
+                className="w-full rounded-lg"
                 src={`http://localhost:5000/${Post?.videoContent}`}
                 controls
               />
             </div>
           )}
         </div>
+
         <h3>Comments</h3>
         {comments.length === 0 && <p className="noComments">No Comments Yet</p>}
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment._id}>
-              <p>{comment.comment}</p>
-              <p>
-                <small>by {comment.user}</small>
-              </p>
-              <p>
-                <small>{new Date(comment.date).toLocaleString()}</small>
-              </p>
-            </li>
-          ))}
+        <ul className="commentList">
+          {comments
+            .sort((a, b) => {
+              return new Date(a.date).getTime() - new Date(b.date).getTime();
+            })
+            .map((comment) => (
+              <li key={comment._id}>
+                <p>{comment.comment}</p>
+                <p>
+                  <small>by {comment.user}</small>
+                </p>
+                <p>
+                  <small>{new Date(comment.date).toLocaleString()}</small>
+                </p>
+              </li>
+            ))}
           <form onSubmit={(e) => addComment(e, postId)}>
             <input
               value={comment}

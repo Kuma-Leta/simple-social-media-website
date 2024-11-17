@@ -51,18 +51,17 @@ const Rating: React.FC<RatingProps> = ({
   };
 
   return (
-    <p className="rateRequest">
+    <p className="rateRequest whitespace-nowrap">
       {hasRated ? "rated" : "rate me ?"}
       {[1, 2, 3, 4, 5].map((value) => (
         <button
           key={value}
           onClick={() => handleRating(value)}
           style={{
-            backgroundColor:
-              rating !== null && value <= rating ? "gold" : "gray",
+            color: rating !== null && value <= rating ? "gold" : "gray",
           }}
         >
-          ⭐
+          <i className="fas fa-star"></i>
         </button>
       ))}
     </p>

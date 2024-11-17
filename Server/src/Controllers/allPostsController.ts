@@ -6,9 +6,10 @@ export const getAllPosts = async (
   res: Response,
   next: NextFunction
 ) => {
-  const posts = await postModel.find();
+  const posts = await postModel.find().populate("comments");
   if (posts.length === 0) {
-    next(new AppError("no posts found", 404));
+    return next(new AppError("no posts found", 404));
   }
+
   res.status(200).json({ message: "success", posts });
 };

@@ -1,5 +1,7 @@
 import React from "react";
 // import "./styles/index.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddPost from "./Components/post/profile/addPost";
 // import DeletePost from "./Components/Profile/deletePost";
@@ -9,7 +11,7 @@ import AllPosts from "./Components/post/allPosts";
 import Login from "./Components/users/login";
 import Signup from "./Components/users/signup";
 import NotFound from "./Components/notFound";
-import HomePage from "./Components/home";
+import HomePage from "./Components/home/home";
 import SystemOverview from "./Components/systemOverview";
 import { PrivateRoutes } from "./privateRoutes";
 import Profile from "./Components/post/profile/profile";

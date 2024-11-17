@@ -10,7 +10,7 @@ const getSpecificUser = async (
   next: NextFunction
 ) => {
   const { token } = req.params;
-  console.log(token);
+
   if (!token) {
     return next(new AppError("no token found", 404));
   }

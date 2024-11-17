@@ -9,7 +9,7 @@ const PostList: React.FC = () => {
     <div className="postsContainer">
       {posts && posts.length > 0 ? (
         posts.map((post) => (
-          <div className="post" key={post._id}>
+          <div className="post font-serif" key={post._id}>
             <Posts post={post} />
             <CommentsList post={post} />
           </div>

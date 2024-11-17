@@ -67,3 +67,8 @@ form .addComment {
   padding: 10px;
   border: 1px solid black;
 }
+
+.addComment span {
+  cursor: pointer;
+  color: green;
+}

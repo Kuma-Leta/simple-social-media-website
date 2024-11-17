@@ -1,12 +1,16 @@
 import "../../styles/home.css";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUser, selectUsername } from "../../store/userSlice";
+import { selectUsername } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { searchPosts } from "../../store/postSlice";
+import { AppDispatch } from "../../store";
 const Header: React.FC = () => {
   const user = useSelector(selectUsername);
-  const dispatch = useDispatch();
+  const [userQuery, setuserQuery] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
@@ -17,6 +21,7 @@ const Header: React.FC = () => {
       // );
       // dispatch({ type: "SET_POSTS", payload: postResult.data.posts });
       dispatch(searchPosts(userQuery));
+      setuserQuery("");
     }
   };
   return (
@@ -24,9 +29,9 @@ const Header: React.FC = () => {
       <h1>
         <Link to={"/home"}>Blog Post.</Link>
       </h1>
-      <div className="profileAndSearchContainer">
+      <div className="profileAndSearchContainer font-mono">
         <Link to={"/profile"}>
-          <i className="fas fa-user"></i> profile :{user || "guest"}
+          <i className="fas fa-user "></i> profile :{user || "guest"}
         </Link>
         <div>
           <input
@@ -34,6 +39,7 @@ const Header: React.FC = () => {
             placeholder="search for post"
             onChange={(e) => setuserQuery(e.target.value)}
             onKeyDown={handleKeyDown}
+            value={userQuery}
           />
           {/* <button className="notifications">
               <i className="fas fa-bell"></i>

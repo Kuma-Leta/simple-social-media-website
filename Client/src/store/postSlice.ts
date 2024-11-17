@@ -35,8 +35,8 @@ export const fetchPosts = createAsyncThunk<Post[]>(
       const response = await axios.get("http://localhost:5000/api/getAllPosts");
       console.log(response);
       return response.data.posts as Post[];
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error) || "failed to fetch posts";
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue("An unexpected error occurred.");
     }
   }
 );
@@ -78,7 +78,7 @@ const postSlice = createSlice({
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || "failed to fetch posts";
+        state.error = action.error.message || "something Went wrong";
       });
 
     builder

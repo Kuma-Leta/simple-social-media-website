@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import axios from "../../../axiosConfig";
-
+import { useNavigate } from "react-router-dom";
 const AddPost: React.FC = () => {
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
@@ -9,7 +9,7 @@ const AddPost: React.FC = () => {
   const [videoContent, setVideoContent] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
@@ -37,6 +37,7 @@ const AddPost: React.FC = () => {
       console.log("Post created:", response.data);
       setSuccessMessage("Post created successfully!");
       clearForm();
+      navigate("/profile");
     } catch (error) {
       console.error("Error creating post:", error);
       setError("Error creating post. Please try again.");

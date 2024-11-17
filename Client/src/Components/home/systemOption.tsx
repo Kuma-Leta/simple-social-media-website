@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "../../styles/styles.css";
 const SystemOption: React.FC = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -14,7 +15,7 @@ const SystemOption: React.FC = () => {
     }
   };
   return (
-    <div className="menuAndSystemOption">
+    <div className="menuAndSystemOption font-serif">
       {/* <div className="menu"> */}
       {/* <button
                 onClick={() =>
@@ -30,7 +31,7 @@ const SystemOption: React.FC = () => {
               </button> */}
       {/* </div> */}
       {/* {isSystemOption && ( */}
-      <div className="sytemOptions">
+      <div className="sytemOptions bg-blue">
         <button className="categoriesContainer">
           <p>categories</p>
           <div className="categories">

@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import { AuthenticatedRequest } from "../middleware/authenticationMiddleware";
 import { postModel } from "../models/postModel";
 import { likeModel } from "../models/likeModel";
-
+import { getSocket } from "..";
 const addLikeForPost = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -30,6 +30,12 @@ const addLikeForPost = async (
     },
     { new: true }
   );
+  const io = getSocket();
+  io.emit("newLike", {
+    postId,
+    message: "some one liked your post",
+    user: req.user,
+  });
 
   res.status(200).json({ status: "success", updatedPost });
 };
