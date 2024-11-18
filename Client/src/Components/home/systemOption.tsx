@@ -15,68 +15,87 @@ const SystemOption: React.FC = () => {
     }
   };
   return (
-    <div className="menuAndSystemOption font-serif">
-      {/* <div className="menu"> */}
-      {/* <button
-                onClick={() =>
-                  dispatch({
-                    type: "SET_SYSTEM_OPTION",
-                    payload: !isSystemOption,
-                  })
-                }
-                title="menu"
-                className=""
-              >
-                <i className="fas fa-bars"></i>
-              </button> */}
-      {/* </div> */}
-      {/* {isSystemOption && ( */}
-      <div className="sytemOptions bg-blue">
-        <button className="categoriesContainer">
-          <p>categories</p>
-          <div className="categories">
-            {["technology", "Arts", "politics", "sports"].map(
+    <div className=" font-serif fixed top-28 left-0 h-screen w-64 bg-gray-800 text-white shadow-lg">
+      <div className=" flex flex-col p-6 space-y-4">
+        {/* Categories Dropdown */}
+        <button className=" w-full text-left">
+          <p className="font-bold uppercase mb-2">Categories</p>
+          <div className=" absolute left-0 top-full mt-2 bg-gray-700 p-3 rounded-lg shadow-lg hidden group-hover:block">
+            {["Technology", "Arts", "Politics", "Sports"].map(
               (category, index) => (
-                <ul>
-                  <li key={index}>{category}</li>
+                <ul key={index}>
+                  <li className="py-1 px-2 hover:bg-gray-600 rounded-lg cursor-pointer">
+                    {category}
+                  </li>
                 </ul>
               )
             )}
           </div>
         </button>
+
+        {/* Profile Button */}
         <button
-          title="click to view your profile"
+          title="Click to view your profile"
           onClick={() => navigate("/profile")}
+          className="flex items-center space-x-2 py-2 px-4 bg-blue-600 rounded-lg hover:bg-blue-700"
         >
-          View your Profile
+          <i className="fas fa-user"></i>
+          <span>View Your Profile</span>
         </button>
+
+        {/* Create Post Button */}
         <button
-          title="click to create your post"
+          title="Click to create your post"
           onClick={() => navigate("/profile/addPost")}
+          className="flex items-center space-x-2 py-2 px-4 bg-green-600 rounded-lg hover:bg-green-700"
         >
-          Create your Post
+          <i className="fas fa-edit"></i>
+          <span>Create Your Post</span>
         </button>
-        <button title="click to logout" onClick={handleLogout}>
-          logout
-        </button>
+
+        {/* Logout Button */}
         <button
-          title="click to view your notifications"
-          className="notifications"
+          title="Click to logout"
+          onClick={handleLogout}
+          className="flex items-center space-x-2 py-2 px-4 bg-red-600 rounded-lg hover:bg-red-700"
         >
-          Notifications<i className="fas fa-bell"></i>{" "}
-          <span className="notSize"> 25 </span>
+          <i className="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
         </button>
+
+        {/* Notifications Button */}
         <button
-          title="click to view your posts"
+          title="Click to view your notifications"
+          className="flex items-center justify-between py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600"
+        >
+          <span>Notifications</span>
+          <div className="flex items-center space-x-2">
+            <i className="fas fa-bell"></i>
+            <span className="bg-red-500 text-white rounded-full px-2 py-1 text-sm">
+              25
+            </span>
+          </div>
+        </button>
+
+        {/* Posts Button */}
+        <button
+          title="Click to view your posts"
           onClick={() => navigate("/profile")}
+          className="flex items-center space-x-2 py-2 px-4 bg-purple-600 rounded-lg hover:bg-purple-700"
         >
-          your posts
+          <i className="fas fa-th-list"></i>
+          <span>Your Posts</span>
         </button>
-        <button title="click to view  videos">
-          settings <i className="fas fa-cog"></i>
+
+        {/* Settings Button */}
+        <button
+          title="Click to view settings"
+          className="flex items-center space-x-2 py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600"
+        >
+          <i className="fas fa-cog"></i>
+          <span>Settings</span>
         </button>
       </div>
-      {/* )} */}
     </div>
   );
 };
