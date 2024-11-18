@@ -42,19 +42,27 @@ const Posts: React.FC<Post> = ({ post }) => {
             className="text-blue-500 underline mt-2"
             onClick={() => setShowMore(!showmore)}
           >
-            {showmore ? "... Show less" : "... Read more"}
+            {showmore ? " Show less" : " Read more"}
           </button>
         )}
       </p>
 
       {post.imageContent && (
         <div>
-          <img src={`http://localhost:5000/${post.imageContent}`} alt="Post" />
+          <img
+            className="w-full rounded-lg"
+            src={`http://localhost:5000/${post.imageContent}`}
+            alt="Post"
+          />
         </div>
       )}
       {post.videoContent && (
-        <div>
-          <video src={`http://localhost:5000/${post.videoContent}`} controls />
+        <div className="">
+          <video
+            className="w-full rounded-lg"
+            src={`http://localhost:5000/${post.videoContent}`}
+            controls
+          />
         </div>
       )}
       <div className="LCcontainer">
@@ -86,7 +94,9 @@ const Posts: React.FC<Post> = ({ post }) => {
           </div>
         </div>
       </div>
-      {Close && <CommentPopup onClose={onClose} postId={post._id} />}
+      {Close && (
+        <CommentPopup onClose={onClose} postId={post._id} post={post} />
+      )}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { RootState } from "./index";
 export interface Post {
   _id: string;
   author: string;
+  category: string;
   textContent: string;
   imageContent?: string;
   videoContent?: string;

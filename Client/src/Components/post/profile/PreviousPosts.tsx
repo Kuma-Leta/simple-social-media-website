@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "../../../axiosConfig";
 import "../../../styles/profile/previousPost.css";
 import { useNavigate } from "react-router-dom";
-interface Post {
-  _id: string;
-  author: string;
-  imageContent: string;
-  videoContent: string;
-  rating: number;
-  textContent: string;
-}
+import { Post } from "../../../store/postSlice";
+// interface Post {
+//   _id: string;
+//   author: string;
+//   imageContent: string;
+//   videoContent: string;
+//   rating: number;
+//   textContent: string;
+// }
 
 const PreviousPosts: React.FC = () => {
   const [previousPosts, setPreviousPosts] = useState<Post[]>([]);
@@ -59,44 +60,80 @@ const PreviousPosts: React.FC = () => {
     }
   };
   return (
-    <div>
-      <h1>your Posts</h1>
-      <div className="container">
-        {previousPosts.map((post, index) => (
-          <div className="eachPost" key={post._id}>
-            <div className="postDropdown">
-              <button onClick={() => toggleDropdown(post._id)}>...</button>
-              {dropdownVisible === post._id && (
-                <div className="dropdownMenu">
-                  <button onClick={() => handleEdit(post)}>Edit post</button>
-                  <button onClick={() => handleDelete(post._id)}>
-                    Delete post
-                  </button>
-                </div>
-              )}
-            </div>
-            <p>Author 🌟:{post.author}</p>
-            <p> message :{post.textContent}</p>
-            {post.imageContent && (
-              <div>
-                <img
-                  src={`http://localhost:5000/${post.imageContent}`}
-                  alt="Post"
-                />
+    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {previousPosts.map((post) => (
+        <div
+          key={post._id}
+          className="relative bg-white shadow-lg rounded-xl p-6 transform transition hover:scale-105"
+        >
+          {/* Post Options Dropdown */}
+          <div className="absolute top-4 right-4">
+            <button
+              onClick={() => toggleDropdown(post._id)}
+              className="text-gray-500 hover:text-gray-800 text-lg"
+            >
+              &bull;&bull;&bull;
+            </button>
+            {dropdownVisible === post._id && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-xl">
+                <button
+                  onClick={() => handleEdit(post)}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  ✏️ Edit Post
+                </button>
+                <button
+                  onClick={() => handleDelete(post._id)}
+                  className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                >
+                  🗑️ Delete Post
+                </button>
               </div>
             )}
-            {post.videoContent && (
-              <div>
-                <video
-                  src={`http://localhost:5000/${post.videoContent}`}
-                  controls
-                />
-              </div>
-            )}
-            <p>rating :{post.rating.toFixed(1)}</p>
           </div>
-        ))}
-      </div>
+
+          {/* Post Content */}
+          <h2 className="text-lg font-semibold text-gray-800 mb-2 truncate">
+            Author 🌟: {post.author}
+          </h2>
+          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+            {post.textContent}
+          </p>
+
+          {/* Media Content */}
+          {post.imageContent && (
+            <div className="mb-4">
+              <img
+                src={`http://localhost:5000/${post.imageContent}`}
+                alt="Post"
+                className="w-full h-40 object-cover rounded-lg"
+              />
+            </div>
+          )}
+          {post.videoContent && (
+            <div className="mb-4">
+              <video
+                src={`http://localhost:5000/${post.videoContent}`}
+                controls
+                className="w-full rounded-lg"
+              />
+            </div>
+          )}
+
+          {/* Post Footer */}
+          <div className="flex justify-between items-center">
+            <p className="text-gray-500 text-sm">
+              <strong>Rating:</strong> {post.rating.toFixed(1)}
+            </p>
+            <button
+              onClick={() => alert(`Viewing post by ${post.author}`)}
+              className="text-blue-600 font-medium text-sm hover:underline"
+            >
+              View More
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
