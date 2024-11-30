@@ -10,6 +10,7 @@ import globalErrorHandler from "./globalErrorHandling/globalErrorHandler";
 import AppError from "./globalErrorHandling/appError";
 // const router = express.Router();
 import { Server } from "socket.io";
+import { saveMessage } from "./Controllers/chatWithFriendController";
 const app = express();
 const server = http.createServer(app);
 
@@ -31,10 +32,30 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+let onlineUsers = new Map();
 io.on("connection", (socket) => {
   console.log("user connected");
+  socket.on("userOnline", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+  socket.on("sendMessage", async (data) => {
+    try {
+      const { senderId, receiverId, message } = data;
+
+      const result = await saveMessage({ senderId, receiverId, message });
+      const receiverSocketId = onlineUsers.get(receiverId);
+      if (receiverSocketId) {
+        socket.to(receiverSocketId).emit("receiveMessage", result);
+      }
+    } catch (error) {}
+  });
   socket.on("disconnect", () => {
     console.log("user disconnected");
+    onlineUsers.forEach((value, key) => {
+      if (value === socket.id) {
+        onlineUsers.delete(key);
+      }
+    });
   });
 });
 
