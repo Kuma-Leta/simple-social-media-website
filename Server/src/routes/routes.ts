@@ -28,8 +28,11 @@ import getSpecificUser from "../Controllers/profileController/getSpecificUser";
 import addLikeForPost from "../Controllers/likeController";
 import addCommentForPost from "../Controllers/comment/commentController";
 import getCommentsForAPost from "../Controllers/comment/getCommentsForAPost";
+import followUser from "../Controllers/followUserController";
+import getAuthorPosts from "../Controllers/getAuthorPosts";
 import multer from "multer";
 import path from "path";
+import { getChatHistory } from "../Controllers/chatWithFriendController";
 const router = express.Router();
 // const upload = multer({ dest: "uploads/" });
 router.post("/signup", catchAsync(createUsers));
@@ -84,4 +87,11 @@ router.get("/getUser/:token", protect, catchAsync(getSpecificUser));
 router.post("/likePost", protect, catchAsync(addLikeForPost));
 router.post("/giveComment", protect, catchAsync(addCommentForPost));
 router.get("/getCommentForAPost/:postId", catchAsync(getCommentsForAPost));
+router.post("/users/:id/follow", protect, catchAsync(followUser));
+router.get("/getAuthorPosts/:postOwner", protect, catchAsync(getAuthorPosts));
+router.get(
+  "/getHistory/:user1Id/:user2Id",
+  protect,
+  catchAsync(getChatHistory)
+);
 export default router;
