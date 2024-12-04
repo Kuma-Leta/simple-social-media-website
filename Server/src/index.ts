@@ -27,6 +27,7 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
 });
 app.use(globalErrorHandler);
 const io = new Server(server, {
+  pingTimeout: 60000,
   cors: {
     origin: "http://localhost:5173",
     methods: ["GET", "POST"],
@@ -37,17 +38,22 @@ io.on("connection", (socket) => {
   console.log("user connected");
   socket.on("userOnline", (userId) => {
     onlineUsers.set(userId, socket.id);
+    console.log(onlineUsers);
   });
-  socket.on("sendMessage", async (data) => {
+  socket.on("join room", ({ roomId, userId }) => {
+    socket.join(roomId);
+    console.log(`${userId} joined room ${roomId}`);
+  });
+  socket.on("send message", async (data) => {
     try {
-      const { senderId, receiverId, message } = data;
-
-      const result = await saveMessage({ senderId, receiverId, message });
-      const receiverSocketId = onlineUsers.get(receiverId);
-      if (receiverSocketId) {
-        socket.to(receiverSocketId).emit("receiveMessage", result);
+      const { senderId, receiverId, message, roomId } = data;
+      const result = await saveMessage(data);
+      if (result) {
+        io.to(roomId).emit("receive message", data);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   });
   socket.on("disconnect", () => {
     console.log("user disconnected");

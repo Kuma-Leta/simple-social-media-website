@@ -59,9 +59,9 @@ const CommentPopup: React.FC<CommentPopupProps> = ({
   // }, [postId]);
   return (
     <div className=" font-serif fixed inset-0 bg-black bg-opacity-50  flex justify-center items-center z-50">
-      <div className=" relative bg-white w-11/12 md:w-3/4 lg:w-1/2 rounded-lg shadow-lg p-6 overflow-y-auto max-h-screen mt-64">
+      <div className=" relative bg-white w-11/12 md:w-3/4 lg:w-1/2 rounded-lg shadow-lg p-6 overflow-y-auto max-h-screen mt-40">
         <button
-          className=" absolute top-4 right-4 text-2xl text-gray-500 hover:text-red-600 focus:outline-none"
+          className=" absolute flex flex-right text-white rounde-lg w-full top-0 sticky top-0 z-50 bg-blue-500 right-4 text-2xl text-gray-500 hover:text-red-600 focus:outline-none"
           onClick={onClose}
         >
           &times;
@@ -103,22 +103,20 @@ const CommentPopup: React.FC<CommentPopupProps> = ({
           <p className="text-gray-500 italic">No Comments Yet</p>
         ) : (
           <ul className=" space-y-4">
-            {post.comments
-              .sort((a, b) => new Date(a.date) - new Date(b.date))
-              .map((comment) => (
-                <li
-                  key={comment._id}
-                  className="bg-gray-100 p-3 rounded-lg shadow-sm"
-                >
-                  <p className="text-gray-800">{comment.comment}</p>
-                  <p className="text-sm text-gray-500">
-                    <small>by {comment.user}</small>
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    <small>{new Date(comment.date).toLocaleString()}</small>
-                  </p>
-                </li>
-              ))}
+            {post.comments.map((comment) => (
+              <li
+                key={comment._id}
+                className="bg-gray-100 p-3 rounded-lg shadow-sm"
+              >
+                <p className="text-gray-800">{comment.comment}</p>
+                <p className="text-sm text-gray-500">
+                  <small>by {comment.user}</small>
+                </p>
+                <p className="text-sm text-gray-400">
+                  <small>{new Date(comment.date).toLocaleString()}</small>
+                </p>
+              </li>
+            ))}
           </ul>
         )}
 

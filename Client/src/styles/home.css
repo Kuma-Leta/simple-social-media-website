@@ -23,7 +23,7 @@ header {
   top: 0;
   width: 100%;
   z-index: 1000;
-  background-color: rgb(9, 9, 44);
+  /* background-color: rgb(9, 9, 44); */
   padding: 1rem;
 }
 

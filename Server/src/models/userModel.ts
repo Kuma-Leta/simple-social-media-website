@@ -3,7 +3,8 @@ import crypto from "crypto";
 import { Schema, model } from "mongoose";
 
 interface User {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -14,7 +15,11 @@ interface User {
 
 const userSchema = new Schema<User>(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
       type: String,
       required: true,
     },

@@ -13,7 +13,7 @@ export const createUsers = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   const userAlreadyExists = await userModel.findOne({ email });
   if (userAlreadyExists) {
     return next(new AppError("User already exists", 400));
@@ -23,13 +23,14 @@ export const createUsers = async (
   const userAccount = new userModel({
     email,
     password,
-    name,
+    firstName,
+    lastName,
   });
   await userAccount.save();
 
   res.status(201).json({
     id: userAccount._id,
-    name: userAccount.name,
+    username: userAccount.firstName + "" + userAccount.lastName,
     email: userAccount.email,
     token: generateToken(userAccount.id),
   });

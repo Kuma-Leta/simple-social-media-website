@@ -26,7 +26,7 @@ export const loginUsers = async (
     res.status(200).json({
       id: userAccount._id,
       email: userAccount.email,
-      name: userAccount.name,
+      name: userAccount.firstName + "" + userAccount.lastName,
       token: generateToken(userAccount.id),
     });
   } else {

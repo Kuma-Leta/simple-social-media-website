@@ -8,7 +8,6 @@ interface Data {
 }
 export const saveMessage = async (data: Data) => {
   try {
-    const { senderId, receiverId, message } = data;
     const result = new chatModel(data);
     await result.save();
     return result;
@@ -22,17 +21,7 @@ export const getChatHistory = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { user1Id, user2Id } = req.params;
-  const result = await chatModel
-    .find({
-      $or: [
-        {
-          senderId: user1Id,
-          receiverId: user2Id,
-        },
-        { senderId: user2Id, receiverId: user1Id },
-      ],
-    })
-    .sort({ timestamp: 1 });
+  const { roomId } = req.params;
+  const result = await chatModel.find({ roomId }).sort({ timestamp: 1 });
   res.status(200).json(result);
 };

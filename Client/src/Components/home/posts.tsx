@@ -4,14 +4,20 @@ import axios from "../../axiosConfig";
 import { useState } from "react";
 import CommentPopup from "./comment";
 import "../../styles/styles.css";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUsername } from "../../store/userSlice";
 const Posts: React.FC<Post> = ({ post }) => {
   const [showmore, setShowMore] = useState(false);
   const [Close, setOnclose] = useState(false);
+  const navigate = useNavigate();
+  const user = useSelector(selectUsername);
   // const [toggleShowMore, setToggleShowMore] = useState((prev) => !prev);
   const handleLikes = async (postId: string) => {
     const result = await axios.post("http://localhost:5000/api/likePost", {
       postId,
     });
+    console.log(result);
   };
   const onClose = () => {
     setOnclose(false);
@@ -32,12 +38,22 @@ const Posts: React.FC<Post> = ({ post }) => {
   return (
     <div className="eachPost">
       <div className="postDropdown">{/* <button>...</button> */}</div>
-      <p className="author">
-        <span className="onlinePresense">.</span> Author :{post.author}
+      <p className=" inline flex items center justify-between space-x-2 whitespace:nowrap">
+        <span
+          className="ronded cursor-pointer hover:underline"
+          onClick={() => navigate("/authorProfile", { state: post })}
+        >
+          . <i className="fas fa-user mr-2"></i>
+          Author :{post.author}
+        </span>{" "}
+        {post.user !== user?._id && (
+          <button className="text-blue-500 flex flex-end">+ Follow</button>
+        )}
+        <span>&bull; &bull; &bull;</span>
       </p>
       <p className="textContent text-justify inline">
-        {showmore ? post.textContent : post.textContent.substring(0, 100)}
-        {post.textContent.length > 100 && (
+        {showmore ? post.textContent : post.textContent?.substring(0, 100)}
+        {post.textContent?.length > 100 && (
           <button
             className="text-blue-500 underline mt-2"
             onClick={() => setShowMore(!showmore)}
@@ -69,7 +85,7 @@ const Posts: React.FC<Post> = ({ post }) => {
         <div className="likeAndComment">
           <div className="likeRatingComment">
             <p className="whitespace-nowrap">
-              <i className="fas fa-star"></i>:{post.rating.toFixed(1)}
+              <i className="fas fa-star"></i>:{post.rating?.toFixed(1)}
             </p>
             <button
               className="whitespace-nowrap"

@@ -1,6 +1,7 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "../../../axiosConfig";
 import { useNavigate } from "react-router-dom";
+import { fetchUser } from "../../home/connectSocket";
 const AddPost: React.FC = () => {
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
@@ -9,6 +10,13 @@ const AddPost: React.FC = () => {
   const [videoContent, setVideoContent] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  useEffect(() => {
+    async function getUser() {
+      const user = await fetchUser();
+      setAuthor(user.firstName + user.lastName);
+    }
+    getUser();
+  });
   const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -66,25 +74,6 @@ const AddPost: React.FC = () => {
   return (
     <div className="bg-gray-50 p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label
-            htmlFor="author"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Author
-          </label>
-          <input
-            type="text"
-            name="author"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            placeholder="Enter your name"
-            required
-          />
-        </div>
-
         <div>
           <label
             htmlFor="category"

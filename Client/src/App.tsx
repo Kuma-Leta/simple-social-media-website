@@ -19,6 +19,7 @@ import Settings from "./Components/settings/settings";
 import ChangeYourName from "./Components/settings/changeName";
 import ChangeYourPassword from "./Components/settings/changePassword";
 import ChangeEmail from "./Components/settings/changeEmail";
+import AuthorProfile from "./Components/home/author/authorProfile";
 const App: React.FC = () => {
   return (
     <>
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path="/" element={<SystemOverview />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/authorProfile" element={<AuthorProfile />} />
           <Route
             path="/profile"
             element={

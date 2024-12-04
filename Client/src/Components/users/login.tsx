@@ -41,55 +41,86 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="login">
-      <div className="loginForm">
-        <form onSubmit={formSubmitHandler} className="form">
-          <h2>LOGIN</h2>
-          <div>
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
+      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+        <form onSubmit={formSubmitHandler} className="space-y-6">
+          <h2 className="text-2xl font-bold text-center text-gray-800">
+            LOGIN
+          </h2>
+
+          <div className="space-y-2">
             <input
-              placeholder="enter email"
+              placeholder="Enter email"
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <button>reset password</button>
-          <div>
+
+          <button
+            type="button"
+            className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Reset Password
+          </button>
+
+          <div className="space-y-2">
             <input
-              placeholder="enter password"
+              placeholder="Enter password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div>
+
+          <div className="space-y-2">
             <input
-              placeholder="confirm your password"
+              placeholder="Confirm your password"
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
           <div>
-            <button type="submit" className="loginbtn">
-              login
+            <button
+              type="submit"
+              className="w-full justify-center flex items-center px-4 py-2  text-black border border-blue-500 rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
+            >
+              Login
             </button>
           </div>
+
           {!result && (
-            <p>
-              don't have an account ? <Link to="/signup">signup</Link>
+            <p className="text-center text-gray-700">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-blue-500 hover:underline">
+                Signup
+              </Link>
             </p>
           )}
-          {result && <p>{result}</p>}
-          {error && <p className="signInError">{error}</p>}
-          <hr />
-          <span>or</span>
-          <div className="sign-in-with-google">
-            <button>
-              <IoLogoGoogle size={28} className="google-logo" />
+          {result && (
+            <p className="text-center text-green-500 font-medium">{result}</p>
+          )}
+          {error && (
+            <p className="text-center text-red-500 font-medium">{error}</p>
+          )}
+
+          <hr className="border-gray-300" />
+          <span className="block text-center text-gray-600">or</span>
+
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="flex items-center px-4 py-2  text-black border border-blue-500 rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
+            >
+              <IoLogoGoogle size={28} className="mr-2" />
               Sign in with Google
             </button>
           </div>

@@ -89,9 +89,5 @@ router.post("/giveComment", protect, catchAsync(addCommentForPost));
 router.get("/getCommentForAPost/:postId", catchAsync(getCommentsForAPost));
 router.post("/users/:id/follow", protect, catchAsync(followUser));
 router.get("/getAuthorPosts/:postOwner", protect, catchAsync(getAuthorPosts));
-router.get(
-  "/getHistory/:user1Id/:user2Id",
-  protect,
-  catchAsync(getChatHistory)
-);
+router.get("/getHistory/:roomId", protect, catchAsync(getChatHistory));
 export default router;

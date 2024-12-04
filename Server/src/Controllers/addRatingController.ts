@@ -14,7 +14,7 @@ export const addRating = async (
   if (!userRating) {
     return next(new AppError("no user found", 404));
   }
-  const name = userRating?.name;
+  const name = userRating?.firstName;
   //implement so that user cannot rate it self
   const post = await postModel.findById(postId);
   if (!post) {

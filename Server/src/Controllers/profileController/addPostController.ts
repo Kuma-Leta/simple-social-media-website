@@ -34,7 +34,7 @@ export const addPost = async (
     return next(new AppError("All fields are required", 400));
   }
   const newPost = {
-    author,
+    author: user.firstName + " " + user.lastName,
     textContent,
     category,
     imageContent: multerReq.files?.imageContent

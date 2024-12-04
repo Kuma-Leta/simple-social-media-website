@@ -94,9 +94,9 @@ const PreviousPosts: React.FC = () => {
 
           {/* Post Content */}
           <h2 className="text-lg font-semibold text-gray-800 mb-2 truncate">
-            Author 🌟: {post.author}
+            Author : {post.author}
           </h2>
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+          <p className="text-gray-600 font-serif text-sm mb-4 ">
             {post.textContent}
           </p>
 

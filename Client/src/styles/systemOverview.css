@@ -1,22 +1,22 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
-.systemOverviewContainer {
+/* .systemOverviewContainer {
   background-color: rgb(20, 11, 52);
   color: white;
   padding: 1rem;
-}
-.header {
+} */
+/* .header {
   display: grid;
   grid-template-columns: 50% 50%;
   justify-content: center;
   align-items: center;
   min-height: 20vh;
-}
-.header h1 a {
+} */
+/* .header h1 a {
   text-decoration: none;
   color: white;
 }
@@ -28,8 +28,8 @@ nav ul {
 nav ul li {
   color: white;
   list-style-type: none;
-}
-nav ul li a {
+} */
+/* nav ul li a {
   color: white;
 }
 #home {
@@ -42,8 +42,8 @@ nav ul li a {
 }
 #home h1 {
   font-size: 2rem;
-}
-#home p {
+} */
+/* #home p {
   font-size: x-large;
 }
 .loginAndSignupContainer {
@@ -61,16 +61,16 @@ nav ul li a {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-}
-#about {
+} */
+/* #about {
   min-height: 50vh;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  
   align-items: center;
   gap: 1rem;
-}
-#about h2 {
+} */
+/* #about h2 {
   display: flex;
 
   font-size: 2rem;
@@ -83,8 +83,8 @@ nav ul li a {
 }
 #contact {
   min-height: 80vh;
-}
-#services {
+} */
+/* #services {
   min-height: 60vh;
 }
 #services ul {
@@ -97,8 +97,8 @@ nav ul li a {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-.contactList {
+} */
+/* .contactList {
   display: grid;
   gap: 1rem;
 }
@@ -109,8 +109,8 @@ nav ul li a {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-}
-.nameAndEmail .name,
+} */
+/* .nameAndEmail .name,
 .email {
   display: grid;
   gap: 1rem;
@@ -126,8 +126,8 @@ nav ul li a {
   display: grid;
   gap: 1rem;
   padding: 1rem;
-}
-.message textarea {
+} */
+/* .message textarea {
   border: none;
   outline: none;
   padding: 1.5rem;
@@ -142,4 +142,4 @@ nav ul li a {
   height: 2rem;
   font-weight: 900;
   cursor: pointer;
-}
+} */

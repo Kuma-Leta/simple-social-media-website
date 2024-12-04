@@ -1,4 +1,4 @@
-.login {
+/* .login {
   min-height: 100vh;
   background: linear-gradient(45deg, rgb(218, 16, 205), rgb(255, 0, 0));
   display: flex;
@@ -51,7 +51,7 @@
   cursor: pointer;
 }
 .sign-in-with-google {
-  /* width: 80%; */
+  
   display: flex;
   justify-content: center;
 }
@@ -76,4 +76,4 @@
 .signInError {
   color: red;
   text-align: center;
-}
+} */

@@ -10,7 +10,7 @@ const getCommentsForAPost = async (
   const postId = req.params.postId;
   const post = await postModel.findById(postId).populate("comments");
   const commentProvider = await userModel.findOne(post?.user);
-  const username = commentProvider?.name;
+  const username = commentProvider?.firstName;
   if (!post) {
     return res.status(200).json({
       status: "fail",

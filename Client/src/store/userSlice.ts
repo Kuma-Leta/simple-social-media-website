@@ -23,7 +23,7 @@ export const getUser = createAsyncThunk<string | null>(
       );
       console.log(user.data.User);
 
-      return user.data.User.name as string;
+      return user.data.User;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

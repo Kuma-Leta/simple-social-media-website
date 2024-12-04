@@ -1,14 +1,13 @@
 import { Post } from "../../store/postSlice";
 import { formatDistanceToNow } from "date-fns";
 import "../../styles/comment.css";
-import { useDispatch } from "react-redux";
-import { AddComment, setComment } from "../../store/commentSlice";
-import { FormEvent, useState } from "react";
-import { AppDispatch } from "../../store";
+import { FormEvent, useEffect, useState } from "react";
 import axios from "../../axiosConfig";
+// import socket from './connectSocket'
 const CommentsList: React.FC<Post> = ({ post }) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState(post.comments);
+  useEffect(() => {}, [comments]);
   const handleAddComment = async (event: FormEvent) => {
     event.preventDefault();
     const response = await axios.post("http://localhost:5000/api/giveComment", {
@@ -20,7 +19,7 @@ const CommentsList: React.FC<Post> = ({ post }) => {
     setCommentText("");
   };
   return (
-    <div className="commentsContainer">
+    <div className="commentsContainer bg-gray-100  max-sm:hidden overflow:hidden">
       <h3>Comments</h3>
       {comments.length === 0 && (
         <p className="noComments">No Comments yet be the first to comment</p>

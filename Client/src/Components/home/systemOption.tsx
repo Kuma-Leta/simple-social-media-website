@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/styles.css";
 const SystemOption: React.FC = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -15,8 +14,8 @@ const SystemOption: React.FC = () => {
     }
   };
   return (
-    <div className=" font-serif fixed top-28 left-0 h-screen w-64 bg-gray-800 text-white shadow-lg">
-      <div className=" flex flex-col p-6 space-y-4">
+    <div className=" font-serif fixed top-24 left-0 h-screen w-64 bg-white-400 text-white shadow-lg none sm:block max-sm:hidden">
+      <div className=" flex flex-col p-6 space-y-4 text-black">
         {/* Categories Dropdown */}
         <button className=" w-full text-left">
           <p className="font-bold uppercase mb-2">Categories</p>
@@ -37,7 +36,7 @@ const SystemOption: React.FC = () => {
         <button
           title="Click to view your profile"
           onClick={() => navigate("/profile")}
-          className="flex items-center space-x-2 py-2 px-4 bg-blue-600 rounded-lg hover:bg-blue-700"
+          className="flex items-center space-x-2 py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-400"
         >
           <i className="fas fa-user"></i>
           <span>View Your Profile</span>
@@ -47,7 +46,7 @@ const SystemOption: React.FC = () => {
         <button
           title="Click to create your post"
           onClick={() => navigate("/profile/addPost")}
-          className="flex items-center space-x-2 py-2 px-4 bg-green-600 rounded-lg hover:bg-green-700"
+          className="flex items-center space-x-2 py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-400"
         >
           <i className="fas fa-edit"></i>
           <span>Create Your Post</span>
@@ -57,7 +56,7 @@ const SystemOption: React.FC = () => {
         <button
           title="Click to logout"
           onClick={handleLogout}
-          className="flex items-center space-x-2 py-2 px-4 bg-red-600 rounded-lg hover:bg-red-700"
+          className="flex items-center space-x-2 py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-400"
         >
           <i className="fas fa-sign-out-alt"></i>
           <span>Logout</span>
@@ -66,11 +65,11 @@ const SystemOption: React.FC = () => {
         {/* Notifications Button */}
         <button
           title="Click to view your notifications"
-          className="flex items-center justify-between py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600"
+          className="flex items-center justify-between py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-400"
         >
+          <i className="fas fa-bell"></i>
           <span>Notifications</span>
           <div className="flex items-center space-x-2">
-            <i className="fas fa-bell"></i>
             <span className="bg-red-500 text-white rounded-full px-2 py-1 text-sm">
               25
             </span>
@@ -81,7 +80,7 @@ const SystemOption: React.FC = () => {
         <button
           title="Click to view your posts"
           onClick={() => navigate("/profile")}
-          className="flex items-center space-x-2 py-2 px-4 bg-purple-600 rounded-lg hover:bg-purple-700"
+          className="flex items-center space-x-2 py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-400"
         >
           <i className="fas fa-th-list"></i>
           <span>Your Posts</span>
@@ -90,7 +89,7 @@ const SystemOption: React.FC = () => {
         {/* Settings Button */}
         <button
           title="Click to view settings"
-          className="flex items-center space-x-2 py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600"
+          className="flex items-center space-x-2 py-2 px-4 bg-gray-100 rounded-lg hover:bg-gray-400"
         >
           <i className="fas fa-cog"></i>
           <span>Settings</span>

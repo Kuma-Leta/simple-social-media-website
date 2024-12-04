@@ -2,7 +2,6 @@ import Jwt, { JwtPayload } from "jsonwebtoken";
 import { NextFunction, Response } from "express";
 import { AuthenticatedRequest } from "../../middleware/authenticationMiddleware";
 import { userModel } from "../../models/userModel";
-import { AppCheck } from "firebase-admin/lib/app-check/app-check";
 import AppError from "../../globalErrorHandling/appError";
 const getSpecificUser = async (
   req: AuthenticatedRequest,

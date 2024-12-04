@@ -1,141 +1,183 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "../styles/systemOverview.css";
+
 const SystemOverview: React.FC = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    function checkLogin() {
-      const authToken = localStorage.getItem("authToken");
-      if (authToken) {
-        navigate("/home");
-      }
-    }
-    checkLogin();
-  }, []);
-  return (
-    <div className="systemOverviewContainer">
-      <header className="header">
-        <h1>
-          <Link to={"/systemOverview"}>Blog Post.</Link>
-        </h1>
-        <nav>
-          <ul>
-            <li>
-              <a href="#home">Home</a>
-            </li>
-            <li>
-              <a href="#about">About Us</a>
-            </li>
-            <li>
-              <a href="#services">Services</a>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <section id="home">
-        <h1>Welcome to our Blog </h1>
-        <p>Share your thoughts, stories, and experiences with our community!</p>
-        <div className="loginAndSignupContainer">
-          <Link to="/login">login</Link>
 
-          <Link to="/signup">signup</Link>
+  useEffect(() => {
+    const checkLogin = () => {
+      // const authToken = localStorage.getItem("authToken");
+      // if (authToken) navigate("/home");
+    };
+    checkLogin();
+  }, [navigate]);
+
+  return (
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      <header className="bg-blue-600 text-white p-4">
+        <div className=" mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold">
+            <Link to="/systemOverview" className="hover:text-gray-200">
+              Blog Post.
+            </Link>
+          </h1>
+          <nav>
+            <ul className="flex space-x-4">
+              <li>
+                <a href="#home" className="hover:underline">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#about" className="hover:underline">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#services" className="hover:underline">
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:underline">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <section id="home" className="bg-white py-16 text-center">
+        <h1 className="text-4xl font-bold">Welcome to our Blog</h1>
+        <p className="mt-4 text-lg">
+          Share your thoughts, stories, and experiences with our community!
+        </p>
+        <div className="mt-8 space-x-4">
+          <Link
+            to="/login"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Signup
+          </Link>
         </div>
       </section>
 
-      <section id="about">
-        <h2>About Us</h2>
-        <p>
-          Welcome to our Blog , a platform where users can share their thoughts,
-          stories, and experiences across various categories. Our mission is to
-          provide a space for everyone to express themselves freely and connect
-          with a community of like-minded individuals.
-        </p>
-        <p>
-          Whether you're interested in technology, lifestyle, travel, or any
-          other topic, you'll find a category that suits your interests. Join us
-          and start sharing your voice today!
-        </p>
+      <section id="about" className="bg-gray-50 py-16">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold">About Us</h2>
+          <p className="mt-4 text-lg">
+            Welcome to our Blog, a platform where users can share their
+            thoughts, stories, and experiences across various categories.
+          </p>
+        </div>
       </section>
 
-      <section id="services">
-        <h2>Our Services</h2>
-        <ul>
-          <li>
-            <h2>
-              <strong>Blog Posting:</strong>
-            </h2>
-            <p>
-              Create and share your blog posts in various categories such as
-              technology, lifestyle, travel, and more.
-            </p>
-          </li>
-          <li>
-            <h2>Community Interaction:</h2>
-            <p>
-              Engage with other users through comments and discussions on blog
-              posts.
-            </p>
-          </li>
-          <li>
-            <h2>Personalized Feed:</h2>
-            <p>
-              Get personalized content recommendations based on your interests
-              and activities.
-            </p>
-          </li>
-          <li>
-            <h2>User Profiles:</h2>
-            <p>
-              {" "}
-              Create a personalized profile to showcase your posts and connect
-              with other users.
-            </p>
-          </li>
-        </ul>
+      <section id="services" className="bg-white py-16">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold">Our Services</h2>
+          <ul className="mt-8 space-y-8">
+            <li>
+              <h3 className="text-2xl font-bold">Blog Posting</h3>
+              <p className="mt-2">
+                Create and share your blog posts in various categories.
+              </p>
+            </li>
+            <li>
+              <h3 className="text-2xl font-bold">Community Interaction</h3>
+              <p className="mt-2">
+                Engage with other users through comments and discussions.
+              </p>
+            </li>
+            <li>
+              <h3 className="text-2xl font-bold">Personalized Feed</h3>
+              <p className="mt-2">
+                Get personalized content recommendations based on your
+                interests.
+              </p>
+            </li>
+            <li>
+              <h3 className="text-2xl font-bold">User Profiles</h3>
+              <p className="mt-2">
+                Create a profile to showcase your posts and connect with others.
+              </p>
+            </li>
+          </ul>
+        </div>
       </section>
-      <section id="contact">
-        <div className="contactList">
-          <h2>Contact Us</h2>
-          <p>
-            If you have any questions, feedback, or suggestions, feel free to
-            reach out to us. We'd love to hear from you!
+
+      <section id="contact" className="bg-gray-50 py-16">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold">Contact Us</h2>
+          <p className="mt-4">
+            Feel free to reach out to us with questions or feedback!
           </p>
           <p>
             Email:{" "}
-            <a href="mailto:kumaleta2021@gmail.com">info@yourblogname.com</a>
+            <a href="mailto:kumaleta2021@gmail.com" className="text-blue-600">
+              info@yourblogname.com
+            </a>
           </p>
           <p>Phone: +123-456-7890</p>
-          <p>Address: 123 Blog Street, Blog City, BC 12345</p>
+          <form
+            action="mailto:kumaleta2021@gmail.com"
+            method="post"
+            className="mt-8 space-y-4 max-w-md mx-auto"
+          >
+            <div className="flex flex-col">
+              <label htmlFor="name" className="text-left">
+                Name:
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                className="border border-gray-300 rounded px-4 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="email" className="text-left">
+                Email:
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                className="border border-gray-300 rounded px-4 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="message" className="text-left">
+                Your Message:
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                required
+                className="border border-gray-300 rounded px-4 py-2"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Send
+            </button>
+          </form>
         </div>
-        <form
-          action="mailto:kumaleta2021@gmail.com"
-          method="post"
-          encType="text/plain"
-        >
-          <div className="nameAndEmail">
-            <div className="name">
-              <label htmlFor="name">Name:</label>
-              <input type="text" id="name" name="name" required />
-            </div>
-            <div className="email">
-              <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-          </div>
-          <div className="message">
-            <label htmlFor="message">Your Message:</label>
-            <textarea id="message" name="message" rows={4} required></textarea>
-          </div>
-          <div className="submitBtn">
-            <input type="submit" value="Send" />
-          </div>
-        </form>
       </section>
     </div>
   );
 };
+
 export default SystemOverview;
