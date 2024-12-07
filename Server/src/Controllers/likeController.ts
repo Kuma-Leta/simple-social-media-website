@@ -10,33 +10,16 @@ const addLikeForPost = async (
 ) => {
   const { postId } = req.body;
   const post = await postModel.findById(postId);
-  let previousLike = Number(post?.likes) || 0;
   const like = await likeModel.findOne({ postId, user: req.user });
   if (like) {
-    previousLike -= 1;
     await likeModel.findOneAndDelete({ postId, user: req.user });
+    await postModel.findByIdAndUpdate(postId, { $inc: { likes: -1 } });
   } else {
-    previousLike += 1;
-    await likeModel.create({
-      postId,
-      user: req.user,
-    });
+    await likeModel.create({ postId, user: req.user });
+    await postModel.findByIdAndUpdate(postId, { $inc: { likes: 1 } });
   }
-  const updatedLike = previousLike;
-  const updatedPost = await postModel.findByIdAndUpdate(
-    postId,
-    {
-      likes: updatedLike,
-    },
-    { new: true }
-  );
-  const io = getSocket();
-  io.emit("newLike", {
-    postId,
-    message: "some one liked your post",
-    user: req.user,
-  });
+  console.log(post);
 
-  res.status(200).json({ status: "success", updatedPost });
+  res.status(200).json({ status: "success", post });
 };
 export default addLikeForPost;

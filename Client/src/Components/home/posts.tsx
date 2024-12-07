@@ -10,14 +10,17 @@ import { selectUsername } from "../../store/userSlice";
 const Posts: React.FC<Post> = ({ post }) => {
   const [showmore, setShowMore] = useState(false);
   const [Close, setOnclose] = useState(false);
+  const [likes, setLikes] = useState(post.likes);
   const navigate = useNavigate();
   const user = useSelector(selectUsername);
   // const [toggleShowMore, setToggleShowMore] = useState((prev) => !prev);
+
   const handleLikes = async (postId: string) => {
     const result = await axios.post("http://localhost:5000/api/likePost", {
       postId,
     });
-    console.log(result);
+
+    setLikes(result.data.post.likes);
   };
   const onClose = () => {
     setOnclose(false);
@@ -92,7 +95,7 @@ const Posts: React.FC<Post> = ({ post }) => {
               onClick={() => handleLikes(post._id)}
             >
               <i className="fas fa-thumbs-up"></i>
-              {post.likes}
+              {likes}
             </button>
             <button
               className="whitespace-nowrap"
