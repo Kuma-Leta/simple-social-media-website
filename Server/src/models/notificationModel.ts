@@ -1,24 +1,30 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
-interface Notification {
-  user: mongoose.Schema.Types.ObjectId;
-  type: string;
-  message: string;
-  data: string;
-  title: string;
-  isRead: boolean;
-  createdAt: Date;
-}
-const notificationModel = new Schema(
+const notificationSchema = new Schema(
   {
-    user: {
+    notificationReceiver: {
+      type: String,
       required: true,
-      type: mongoose.Schema.Types.ObjectId,
     },
-    type: {
+    notificationReceiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
+    },
+
+    reactor: {
       required: true,
       type: String,
-      enum: ["message", "like", "comment", "system", "rating"],
+    },
+    reactorId: {
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
+    notificationType: {
+      required: true,
+      type: String,
+      enum: ["message", "like", "comment", "follow", "rating"],
     },
     message: {
       required: true,
@@ -26,20 +32,11 @@ const notificationModel = new Schema(
     },
     isRead: {
       required: true,
+      type: Boolean,
       default: false,
-    },
-    data: {
-      type: mongoose.Schema.Types.Mixed,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
     },
   },
   { timestamps: true }
 );
+const notificationModel = model("notification", notificationSchema);
 export default notificationModel;
