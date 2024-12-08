@@ -4,58 +4,49 @@ import AppError from "../globalErrorHandling/appError";
 import { AuthenticatedRequest } from "../middleware/authenticationMiddleware";
 import { userModel } from "../models/userModel";
 import { postModel } from "../models/postModel";
+import { trusted } from "mongoose";
 export const addRating = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
-  const { postId, rating, user } = req.body;
-  const userRating = await userModel.findById(req.user.id);
-  if (!userRating) {
-    return next(new AppError("no user found", 404));
+  const { postId, raterId, amount } = req.body;
+  const postRater = await userModel.findOne(req.user._id);
+  if (!postRater) {
+    return next(new AppError("no user Found", 400));
   }
-  const name = userRating?.firstName;
-  //implement so that user cannot rate it self
-  const post = await postModel.findById(postId);
+  const post = await postModel.findOne({ _id: postId });
   if (!post) {
-    return next(new AppError("Post not found", 404));
+    return next(new AppError("no post found", 400));
   }
-
-  if (post.user.toString() === req.user.id) {
-    return next(new AppError("You can't rate your own post", 400));
+  if (post.user === req.user.id) {
+    return next(new AppError("you can't rate your self", 400));
   }
-  const allreadyRated = await ratingModel.findOne({
-    name: name,
-    postId: postId,
-  });
-  if (allreadyRated) {
-    return next(new AppError("you can't rate twice", 400));
+  const allReadyRated = await ratingModel.findOne({ postId, raterId });
+  console.log(allReadyRated);
+  if (allReadyRated) {
+    await ratingModel.findByIdAndUpdate(
+      allReadyRated._id,
+      { amount: amount },
+      { new: true }
+    );
+  } else {
+    const result = await ratingModel.create(req.body);
   }
-
-  const result = await ratingModel.create({
-    postId: postId,
-    rating: rating,
-    name: name,
-    user,
-  });
-  if (!result) {
-    next(new AppError("failed to create rating", 400));
+  const allRatingForThePost = await ratingModel.find({ postId });
+  if (!allRatingForThePost || allRatingForThePost.length === 0) {
+    return;
   }
-  const ratingsForPost = await ratingModel.find({ postId });
-  const totalRatings = ratingsForPost.reduce((acc, cur) => acc + cur.rating, 0);
-  const averagedRatingForPost = totalRatings / ratingsForPost.length;
-  const updatePostRating = await postModel.findByIdAndUpdate(
+  let totalRating = allRatingForThePost.reduce((acc, rating) => {
+    return acc + rating.amount;
+  }, 0);
+  const updatedRating = Number(
+    (totalRating / allRatingForThePost.length).toFixed(1)
+  );
+  await postModel.findByIdAndUpdate(
     postId,
-    {
-      rating: averagedRatingForPost,
-    },
+    { rating: updatedRating },
     { new: true }
   );
-  res.status(200).json({
-    message: "success",
-    name,
-    result,
-    averagedRatingForPost,
-    updatePostRating,
-  });
+  res.status(200).json({ status: "success", updatedRating });
 };

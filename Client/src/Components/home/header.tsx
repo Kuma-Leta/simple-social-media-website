@@ -61,12 +61,15 @@ const Header: React.FC = () => {
             />
           </svg>
 
-          <span className="cursor-pointer">
+          <span className="cursor-pointer relative">
             <i className="fas fa-bell"></i>
+            <span className="bg-red-600 absolute text-xs  font-bold -top-3 -right-2 text-white items-center justify-center rounded-full w-5 h-5">
+              10
+            </span>
           </span>
           <Link
             to="/profile"
-            className="flex items-center hover:text-blue-200 transition duration-300"
+            className="flex items-center hover:text-blue-200 transition duration-300 "
           >
             <i className="fas fa-user mr-2"></i>
             <span className="hidden sm:inline-block">Profile:</span>{" "}

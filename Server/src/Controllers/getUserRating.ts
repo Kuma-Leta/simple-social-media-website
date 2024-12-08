@@ -6,12 +6,13 @@ export const getUserRating = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { postId, userId } = req.params;
-  const rating = await ratingModel.findOne({ postId, user: userId });
+  const { postId, raterId } = req.params;
+  console.log(req.params);
+  const rating = await ratingModel.findOne({ postId, raterId });
 
   if (!rating) {
     return res.status(200).json({ rating: null });
   }
 
-  res.status(200).json({ rating: rating.rating });
+  res.status(200).json({ rating: rating.amount });
 };

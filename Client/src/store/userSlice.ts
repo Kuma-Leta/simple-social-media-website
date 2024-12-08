@@ -4,31 +4,42 @@ import { RootState } from "./index";
 
 interface userState {
   isActive: boolean;
-  name: string | null;
+  user: {
+    firstName: string;
+    lastName: string;
+    _id: string;
+  };
   isLoading: string;
 }
 const initialState: userState = {
   isActive: false,
-  name: null,
+  user: {
+    firstName: "",
+    lastName: "",
+    _id: "",
+  },
   isLoading: "loading...",
 };
-export const getUser = createAsyncThunk<string | null>(
-  "user/getUser",
-  async (_, thunkAPI) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      // console.log(token);
-      const user = await axios.get(
-        `http://localhost:5000/api/getUser/${token}`
-      );
-      console.log(user.data.User);
+export const getUser = createAsyncThunk<{
+  firstName: string;
+  lastName: string;
+  _id: string;
+} | null>("user/getUser", async (_, thunkAPI) => {
+  try {
+    const token = localStorage.getItem("authToken");
+    // console.log(token);
+    const user = await axios.get(`http://localhost:5000/api/getUser/${token}`);
+    const userData = {
+      firstName: user.data.User.firstName,
+      lastName: user.data.User.lastName,
+      _id: user.data.User._id,
+    };
 
-      return user.data.User;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+    return userData;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -41,10 +52,19 @@ const userSlice = createSlice({
       })
       .addCase(
         getUser.fulfilled,
-        (state, action: PayloadAction<string | null>) => {
-          state.name = action.payload;
-          state.isActive = true;
-          state.isLoading = "succeeded";
+        (
+          state,
+          action: PayloadAction<{
+            firstName: string;
+            lastName: string;
+            _id: string;
+          } | null>
+        ) => {
+          if (action.payload) {
+            state.user = action.payload;
+            state.isLoading = "succeeded";
+            state.isActive = true;
+          }
         }
       )
       .addCase(getUser.rejected, (state) => {
@@ -54,6 +74,6 @@ const userSlice = createSlice({
   },
 });
 
-export const selectUsername = (state: RootState) => state.user.name;
+export const selectUsername = (state: RootState) => state.user.user;
 
 export default userSlice.reducer;

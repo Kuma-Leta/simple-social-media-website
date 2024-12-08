@@ -11,6 +11,7 @@ const Posts: React.FC<Post> = ({ post }) => {
   const [showmore, setShowMore] = useState(false);
   const [Close, setOnclose] = useState(false);
   const [likes, setLikes] = useState(post.likes);
+  const [rating, setRating] = useState(post.rating);
   const navigate = useNavigate();
   const user = useSelector(selectUsername);
   // const [toggleShowMore, setToggleShowMore] = useState((prev) => !prev);
@@ -27,6 +28,7 @@ const Posts: React.FC<Post> = ({ post }) => {
   };
   const updateRating = async (newValue: number) => {
     // dispatch({ type: "SET_RATING", payload: newValue });
+    setRating(newValue);
   };
   //   const updatedPosts = posts.map((post) =>
   //     post._id === postId
@@ -88,7 +90,7 @@ const Posts: React.FC<Post> = ({ post }) => {
         <div className="likeAndComment">
           <div className="likeRatingComment">
             <p className="whitespace-nowrap">
-              <i className="fas fa-star"></i>:{post.rating?.toFixed(1)}
+              <i className="fas fa-star"></i>:{rating}
             </p>
             <button
               className="whitespace-nowrap"
@@ -104,12 +106,16 @@ const Posts: React.FC<Post> = ({ post }) => {
               <i className="fas fa-comment"></i>
               comment
             </button>
-            <Rating
-              postId={post._id}
-              initialRating={post.rating}
-              user={post.user}
-              updateRating={updateRating}
-            />
+            {post.user !== user?._id && (
+              <Rating
+                postId={post._id}
+                postOwner={post.user}
+                initialRating={post.amount}
+                updateRating={updateRating}
+                raterId={user._id}
+                rater={user?.firstName + " " + user?.lastName}
+              />
+            )}
           </div>
         </div>
       </div>

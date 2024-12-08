@@ -55,6 +55,12 @@ io.on("connection", (socket) => {
       console.log(error);
     }
   });
+  socket.on("new comment", (data) => {
+    const receiverSocketId = onlineUsers.get(data.postOwner);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("receive notification", data);
+    }
+  });
   socket.on("disconnect", () => {
     console.log("user disconnected");
     onlineUsers.forEach((value, key) => {

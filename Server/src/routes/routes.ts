@@ -69,7 +69,7 @@ router.post(
 router.patch("/resetPassword/:token", protect, catchAsync(resetPassword));
 router.post("/forgotPassword", protect, catchAsync(forgotPassword));
 router.get(
-  "/getUserRating/:postId/:userId",
+  "/getUserRating/:postId/:raterId",
   protect,
   catchAsync(getUserRating)
 );

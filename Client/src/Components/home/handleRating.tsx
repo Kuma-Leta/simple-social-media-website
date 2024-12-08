@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../axiosConfig";
 import "../../styles/rating.css";
+
 interface RatingProps {
   postId: string;
   initialRating: number;
-  user: string;
+  postOwner: string;
   updateRating: (newValue: number) => void;
+  raterId: string;
+  rater: string;
 }
 
 const Rating: React.FC<RatingProps> = ({
   postId,
   initialRating,
-  user,
+  postOwner,
+  raterId,
+  rater,
   updateRating,
 }) => {
   const [rating, setRating] = useState<number | null>(initialRating);
   const [hasRated, setHasRated] = useState<boolean>(false);
+  const [myRating, setMyRating] = useState(rating);
 
   useEffect(() => {
     const fetchRating = async () => {
       try {
-        const result = await axios.get(
-          `http://localhost:5000/api/getUserRating/${postId}/${user}`
+        const response = await axios.get(
+          `http://localhost:5000/api/getUserRating/${postId}/${raterId}`
         );
-        if (result.data.rating) {
-          setRating(result.data.rating);
+        if (response.data.rating) {
+          // setRating(response.data.rating.amount);
+          console.log(response.data.rating);
+          setMyRating(response.data?.rating);
           setHasRated(true);
         }
       } catch (error) {
@@ -33,38 +41,45 @@ const Rating: React.FC<RatingProps> = ({
     };
 
     fetchRating();
-  }, [postId, user]);
+  }, [postId, raterId, rating]);
 
   const handleRating = async (value: number) => {
     try {
-      const result = await axios.post("http://localhost:5000/api/addRating", {
+      const response = await axios.post("http://localhost:5000/api/addRating", {
         postId,
-        rating: value,
-        user,
+        amount: value,
+        postOwner,
+        raterId,
+        rater,
       });
       setRating(value);
       setHasRated(true);
-      updateRating(result.data.averagedRatingForPost);
+      updateRating(response.data.updatedRating);
     } catch (error) {
       console.error("Error submitting rating:", error);
     }
   };
 
   return (
-    <p className="rateRequest whitespace-nowrap">
-      {hasRated ? "rated" : "rate me ?"}
-      {[1, 2, 3, 4, 5].map((value) => (
-        <button
-          key={value}
-          onClick={() => handleRating(value)}
-          style={{
-            color: rating !== null && value <= rating ? "gold" : "gray",
-          }}
-        >
-          <i className="fas fa-star"></i>
-        </button>
-      ))}
-    </p>
+    <div className="rating-container">
+      <p className="rating-text whitespace-nowrap">
+        {hasRated ? "rated:" : "Rate ?"}
+      </p>
+      <div className="stars">
+        {[1, 2, 3, 4, 5].map((value) => (
+          <button
+            key={value}
+            onClick={() => handleRating(value)}
+            // disabled={hasRated}
+            style={{
+              color: hasRated && value <= myRating ? "gold" : "gray",
+            }}
+          >
+            <i className="fas fa-star"></i>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 };
 

@@ -1,13 +1,15 @@
 import { Request } from "express";
 import mongoose, { Schema, model } from "mongoose";
 interface Rating {
-  rating: number;
+  postOwner: mongoose.Schema.Types.ObjectId;
   postId: mongoose.Schema.Types.ObjectId;
-  user: mongoose.Schema.Types.ObjectId;
+  raterId: mongoose.Schema.Types.ObjectId;
+  rater: String;
+  amount: number;
 }
 const ratingSchema = new Schema<Rating>(
   {
-    rating: {
+    amount: {
       type: Number,
       required: true,
     },
@@ -16,7 +18,16 @@ const ratingSchema = new Schema<Rating>(
       required: true,
       ref: "Post",
     },
-    user: {
+    raterId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
+    },
+    rater: {
+      type: String,
+      required: true,
+    },
+    postOwner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "user",

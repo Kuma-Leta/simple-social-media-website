@@ -3,10 +3,14 @@ import { formatDistanceToNow } from "date-fns";
 import "../../styles/comment.css";
 import { FormEvent, useEffect, useState } from "react";
 import axios from "../../axiosConfig";
-// import socket from './connectSocket'
+import socket from "./connectSocket";
+import { useSelector } from "react-redux";
+import { selectUsername } from "../../store/userSlice";
+
 const CommentsList: React.FC<Post> = ({ post }) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState(post.comments);
+  const user = useSelector(selectUsername);
   useEffect(() => {}, [comments]);
   const handleAddComment = async (event: FormEvent) => {
     event.preventDefault();
@@ -17,6 +21,13 @@ const CommentsList: React.FC<Post> = ({ post }) => {
     const newComment = response.data.savedComment;
     setComments([...comments, newComment]);
     setCommentText("");
+    socket.emit("new comment", {
+      user: user?._id,
+      postId: post._id,
+      postOwner: post.user,
+      content: commentText,
+      type: "comment",
+    });
   };
   return (
     <div className="commentsContainer bg-gray-100  max-sm:hidden overflow:hidden">
