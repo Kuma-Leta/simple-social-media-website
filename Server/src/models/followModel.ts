@@ -1,29 +1,37 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { model, Types, Schema } from "mongoose";
 interface Follow {
-  following: mongoose.Schema.Types.ObjectId;
-  followers: mongoose.Types.ObjectId;
-  followedAt: Date;
+  user: Types.ObjectId;
+  followings: Types.ObjectId[];
+  followers: Types.ObjectId[];
 }
 const followSchema = new Schema<Follow>(
   {
-    following: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "user",
+      unique: true,
     },
-    followers: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-    },
-    followedAt: {
-      type: Date,
-      default: Date.now(),
-    },
+    followings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "user",
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
+// followSchema.path("followers").validate(function (value: Types.ObjectId[]) {
+//   return value.length > 0; // Followers array must have at least one element
+// }, "Followers array must have at least one follower.");
 const followModel = model("Follow", followSchema);
 export default followModel;
