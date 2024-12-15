@@ -28,7 +28,12 @@ import getSpecificUser from "../Controllers/profileController/getSpecificUser";
 import addLikeForPost from "../Controllers/likeController";
 import addCommentForPost from "../Controllers/comment/commentController";
 import getCommentsForAPost from "../Controllers/comment/getCommentsForAPost";
-import followUser from "../Controllers/followUserController";
+import {
+  followUser,
+  getFollowers,
+  getFollowing,
+  unfollowUser,
+} from "../Controllers/followUserController";
 import getAuthorPosts from "../Controllers/getAuthorPosts";
 import multer from "multer";
 import path from "path";
@@ -90,4 +95,9 @@ router.get("/getCommentForAPost/:postId", catchAsync(getCommentsForAPost));
 router.post("/users/:id/follow", protect, catchAsync(followUser));
 router.get("/getAuthorPosts/:postOwner", protect, catchAsync(getAuthorPosts));
 router.get("/getHistory/:roomId", protect, catchAsync(getChatHistory));
+//follow routes
+router.post("/followUser", protect, catchAsync(followUser));
+router.get("/getFollowers/:userId", getFollowers);
+router.get("/followings/:userId", getFollowing);
+router.post("/unFollow", unfollowUser);
 export default router;
