@@ -35,6 +35,9 @@ const notificationSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    metaData: {
+      type: Object,
+    },
   },
   { timestamps: true }
 );
