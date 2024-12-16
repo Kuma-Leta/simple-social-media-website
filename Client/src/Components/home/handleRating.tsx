@@ -61,19 +61,22 @@ const Rating: React.FC<RatingProps> = ({
   };
 
   return (
-    <div className="rating-container">
-      <p className="rating-text whitespace-nowrap">
-        {hasRated ? "rated:" : "Rate ?"}
+    <div className="flex items-center gap-2">
+      <p className="text-sm font-medium whitespace-nowrap">
+        {hasRated ? "Rated:" : "Rate?"}
       </p>
-      <div className="stars">
+      <div className="flex gap-1" role="group" aria-label="Rating stars">
         {[1, 2, 3, 4, 5].map((value) => (
           <button
             key={value}
             onClick={() => handleRating(value)}
-            // disabled={hasRated}
-            style={{
-              color: hasRated && value <= myRating ? "gold" : "gray",
-            }}
+            aria-label={`Rate ${value} star${value > 1 ? "s" : ""}`}
+            aria-disabled={hasRated}
+            className={`text-xl transition-colors ${
+              hasRated && value <= myRating
+                ? "text-yellow-400"
+                : "text-gray-400"
+            } hover:text-yellow-400 focus:outline-none`}
           >
             <i className="fas fa-star"></i>
           </button>
