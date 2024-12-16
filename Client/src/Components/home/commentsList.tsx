@@ -22,11 +22,12 @@ const CommentsList: React.FC<Post> = ({ post }) => {
     setComments([...comments, newComment]);
     setCommentText("");
     socket.emit("new comment", {
-      user: user?._id,
-      postId: post._id,
-      postOwner: post.user,
-      content: commentText,
-      type: "comment",
+      reactor: user.firstName + " " + user.lastName,
+      reactorId: user._id,
+      notificationReceiver: post.author,
+      notificaionReceiverId: post.post.user,
+      notificationType: "comment",
+      data: post._id,
     });
   };
   return (
@@ -43,9 +44,7 @@ const CommentsList: React.FC<Post> = ({ post }) => {
           .map((comment) => (
             <li key={comment._id} className="comment">
               <p className="whitespace:nowrap">{comment.comment}</p>
-              <p>
-                <small className="whitespace:nowrap">by {comment.user}</small>
-              </p>
+              <p className="whitespace-nowrap">by {comment.commentor}</p>
               <p>
                 <small>
                   {formatDistanceToNow(new Date(comment.date), {
