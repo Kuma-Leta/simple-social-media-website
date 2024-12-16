@@ -4,6 +4,7 @@ export interface Comment {
   comment: string;
   postId: mongoose.Schema.Types.ObjectId;
   user: mongoose.Schema.Types.ObjectId;
+  commentor: string;
   date: Date;
 }
 export const CommentSchema = new Schema({
@@ -15,6 +16,7 @@ export const CommentSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+
   postId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "post",
@@ -25,5 +27,6 @@ export const CommentSchema = new Schema({
     ref: "user",
     required: true,
   },
+  commentor: { type: String, required: true },
 });
 export const commentModel = mongoose.model("comments", CommentSchema);
