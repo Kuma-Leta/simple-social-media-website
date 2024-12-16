@@ -2,13 +2,11 @@ import { Comment, commentModel } from "../../models/commentModel";
 import { NextFunction, Response } from "express";
 import { AuthenticatedRequest } from "../../middleware/authenticationMiddleware";
 import { postModel } from "../../models/postModel";
-import { getSocket } from "../..";
 const addCommentForPost = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
-  const io = getSocket();
   const { comment, postId } = req.body;
   const newComment = {
     comment: comment,
