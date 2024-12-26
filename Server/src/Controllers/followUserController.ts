@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
 import Follow from "../models/followModel";
 import mongoose from "mongoose";
-import { UserModel } from "../models/models";
+import { userModel } from "../models/userModel";
 import { AuthenticatedRequest } from "../middleware/authenticationMiddleware";
 
 // Follow a user
+// // Assuming the model name is Follow
+import { getIO, onlineUsers } from "../sockets/socketConfig";
+
 export const followUser = async (req: AuthenticatedRequest, res: Response) => {
   const { targetUserId } = req.body;
   const followerId = req.user._id;
+
   if (!followerId || !targetUserId) {
     return res
       .status(400)
@@ -16,14 +20,14 @@ export const followUser = async (req: AuthenticatedRequest, res: Response) => {
 
   try {
     // Check if the target user exists
-    const targetUser = await UserModel.findById(targetUserId);
+    const targetUser = await userModel.findById(targetUserId);
+
     if (!targetUser) {
       return res.status(404).json({ message: "Target user not found" });
     }
 
-    // Update the follow document
+    // Update the follow document for the target user
     let followDoc = await Follow.findOne({ user: targetUserId });
-
     if (!followDoc) {
       followDoc = await Follow.create({
         user: targetUserId,
@@ -37,9 +41,8 @@ export const followUser = async (req: AuthenticatedRequest, res: Response) => {
       }
     }
 
-    // Update the target user's followers
+    // Update the follow document for the follower
     let targetFollowDoc = await Follow.findOne({ user: followerId });
-
     if (!targetFollowDoc) {
       targetFollowDoc = await Follow.create({
         user: followerId,
@@ -52,6 +55,27 @@ export const followUser = async (req: AuthenticatedRequest, res: Response) => {
         await targetFollowDoc.save();
       }
     }
+
+    // Prepare notification data
+    const io = getIO();
+    const notificationData = {
+      notificationReceiverId: targetUserId,
+      notificationReceiver: `${targetUser.firstName} ${targetUser.lastName}`, // Replace with actual field names
+      reactor: `${req.user.firstName} ${req.user.lastName}`,
+      reactorId: followerId,
+      notificationType: "follow",
+      message: `${req.user.firstName} ${req.user.lastName} started following you.`,
+      isRead: false,
+    };
+
+    // Send real-time notification if the user is online
+    if (onlineUsers.has(targetUserId)) {
+      const socketId = onlineUsers.get(targetUserId);
+      io.to(socketId).emit("notification", notificationData);
+    }
+
+    // Optionally save the notification to the database for offline users
+    // await NotificationModel.create(notificationData);
 
     res
       .status(200)
