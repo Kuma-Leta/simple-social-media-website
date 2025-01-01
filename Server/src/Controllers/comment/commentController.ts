@@ -13,13 +13,13 @@ const addCommentForPost = async (
   try {
     const { comment, postId } = req.body;
     const commentor = req.user.firstName + " " + req.user.lastName;
-
+    console.log(req.user);
     // Create and save comment
     const newComment = {
       comment: comment,
       postId: postId,
       user: req.user._id,
-      commentor,
+      commentor: commentor,
       date: new Date(),
     };
 
