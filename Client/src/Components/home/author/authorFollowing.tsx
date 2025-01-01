@@ -41,11 +41,9 @@ const AuthorFollowing: React.FC<AuthorProps> = ({ post }) => {
 
   return (
     <div>
-      <h3 className="font-bold text-xl mb-4">
-        Users {post.author} is Following:
-      </h3>
+      <h3 className="font-bold text-xl mb-4">{post.author} is Following:</h3>
       {followings.length > 0 ? (
-        <ul className="space-y-2">
+        <ul className="space-y-2 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {followings.map((following) => (
             <li
               key={following._id}
