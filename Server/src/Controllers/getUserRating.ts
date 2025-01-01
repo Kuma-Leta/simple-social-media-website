@@ -7,7 +7,7 @@ export const getUserRating = async (
   next: NextFunction
 ) => {
   const { postId, raterId } = req.params;
-  console.log(req.params);
+
   const rating = await ratingModel.findOne({ postId, raterId });
 
   if (!rating) {

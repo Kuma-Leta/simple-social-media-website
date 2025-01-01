@@ -1,5 +1,5 @@
-.container {
-  /* background-color: whitesmoke; */
+/* .container {
+ 
   display: grid;
   padding: 1rem;
   gap: 1rem;
@@ -8,8 +8,7 @@
 .eachPost {
   padding: 1rem;
   background-color: whitesmoke;
-  /* color: white; */
-  /* border: 2px solid green; */
+ 
   border-radius: 1rem;
 }
 .postDropdown {
@@ -44,4 +43,4 @@
 
 .dropdownMenu button:hover {
   background-color: #f1f1f1;
-}
+} */

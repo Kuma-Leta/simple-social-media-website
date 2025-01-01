@@ -21,14 +21,6 @@ const CommentsList: React.FC<Post> = ({ post }) => {
     const newComment = response.data.savedComment;
     setComments([...comments, newComment]);
     setCommentText("");
-    socket.emit("new comment", {
-      reactor: user.firstName + " " + user.lastName,
-      reactorId: user._id,
-      notificationReceiver: post.author,
-      notificaionReceiverId: post.post.user,
-      notificationType: "comment",
-      data: post._id,
-    });
   };
   return (
     <div className="commentsContainer bg-gray-100  max-sm:hidden overflow:hidden">

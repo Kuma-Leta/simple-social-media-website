@@ -1,15 +1,12 @@
-import axios from "../../axiosConfig";
-import React, { useEffect } from "react";
-import { useState } from "react";
-// import "../../styles/comment.css";
-import { FormEvent } from "react";
-// import { Post } from "../../store/postSlice";
+import React from "react";
+
 interface Comment {
   _id: string;
   user: string;
   date: Date;
   comment: string;
 }
+
 interface Post {
   _id: string;
   author: string;
@@ -21,52 +18,28 @@ interface Post {
   likes: number;
   comments: Comment[];
 }
+
 interface CommentPopupProps {
   onClose: () => void;
   postId: string;
   post: Post;
 }
-const CommentPopup: React.FC<CommentPopupProps> = ({
-  onClose,
-  postId,
-  post,
-}) => {
-  // const [comments, setComments] = useState<Comment[]>([]);
-  // const [Post, setPost] = useState<Post | null>(null);
-  // const [comment, setComment] = useState("");
-  // const addComment = async (e: FormEvent<HTMLFormElement>, postId: string) => {
-  //   e.preventDefault();
-  //   const result = await axios.post("http://localhost:5000/api/giveComment", {
-  //     postId,
-  //     comment,
-  //   });
-  //   comments.push(result.data.savedComment);
-  //   comments.sort((a, b) => {
-  //     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  //   });
-  //   setComment("");
-  // };
-  // useEffect(() => {
-  //   const getComments = async () => {
-  //     const result = await axios.get(
-  //       `http://localhost:5000/api/getSpecificPost/${postId}`
-  //     );
-  //     console.log(result);
-  //     // setPost(result.data.post);
-  //     setComments(result.data.post.comments);
-  //   };
-  //   getComments();
-  // }, [postId]);
+
+const CommentPopup: React.FC<CommentPopupProps> = ({ onClose, post }) => {
   return (
-    <div className=" font-serif fixed inset-0 bg-black bg-opacity-50  flex justify-center items-center z-50">
-      <div className=" relative bg-white w-11/12 md:w-3/4 lg:w-1/2 rounded-lg shadow-lg p-6 overflow-y-auto max-h-screen mt-40">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 font-serif">
+      <div className="relative bg-white w-11/12 md:w-3/4 lg:w-1/2 rounded-lg shadow-lg p-6 overflow-y-auto max-h-screen">
+        {/* Close Button */}
         <button
-          className=" absolute flex flex-right text-white rounde-lg w-full top-0 sticky top-0 z-50 bg-blue-500 right-4 text-2xl text-gray-500 hover:text-red-600 focus:outline-none"
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-600 focus:outline-none text-2xl"
           onClick={onClose}
+          aria-label="Close"
         >
           &times;
         </button>
-        <div className=" bg-white p-4">
+
+        {/* Post Content */}
+        <div>
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             {post?.author}'s Post
           </h2>
@@ -76,15 +49,19 @@ const CommentPopup: React.FC<CommentPopupProps> = ({
           <p className="text-gray-700 leading-relaxed mb-4 text-justify">
             {post?.textContent}
           </p>
+
+          {/* Image Content */}
           {post?.imageContent && (
             <div className="mb-4">
               <img
                 className="w-full h-auto rounded-lg"
                 src={`http://localhost:5000/${post?.imageContent}`}
-                alt="Post?"
+                alt="Post Content"
               />
             </div>
           )}
+
+          {/* Video Content */}
           {post?.videoContent && (
             <div className="mb-4">
               <video
@@ -96,13 +73,14 @@ const CommentPopup: React.FC<CommentPopupProps> = ({
           )}
         </div>
 
+        {/* Comments Section */}
         <h3 className="text-lg font-semibold text-gray-700 mt-6 mb-4">
           Comments
         </h3>
         {post.comments.length === 0 ? (
           <p className="text-gray-500 italic">No Comments Yet</p>
         ) : (
-          <ul className=" space-y-4">
+          <ul className="space-y-4">
             {post.comments.map((comment) => (
               <li
                 key={comment._id}
@@ -120,14 +98,14 @@ const CommentPopup: React.FC<CommentPopupProps> = ({
           </ul>
         )}
 
-        <form
-          className="mt-6 flex items-center space-x-2"
-          // onSubmit={(e) => addComment(e, postId)}
-        >
+        {/* Comment Form */}
+        <form className="mt-6 flex items-center space-x-2">
+          <label htmlFor="comment-input" className="sr-only">
+            Leave a comment
+          </label>
           <input
-            // value={comment}
-            // onChange={(e) => setComment(e.target.value)}
-            className=" flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+            id="comment-input"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             type="text"
             placeholder="Leave a comment"
           />
@@ -142,4 +120,5 @@ const CommentPopup: React.FC<CommentPopupProps> = ({
     </div>
   );
 };
+
 export default CommentPopup;

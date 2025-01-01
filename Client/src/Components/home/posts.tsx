@@ -23,6 +23,7 @@ const Posts: React.FC<Post> = ({ post }) => {
 
     setLikes(result.data.post.likes);
   };
+  function handleFollowing() {}
   const onClose = () => {
     setOnclose(false);
   };
@@ -45,14 +46,19 @@ const Posts: React.FC<Post> = ({ post }) => {
       <div className="postDropdown">{/* <button>...</button> */}</div>
       <p className=" inline flex items center justify-between space-x-2 whitespace:nowrap">
         <span
-          className="ronded cursor-pointer hover:underline"
+          className="ronded cursor-pointer hover:underline "
           onClick={() => navigate("/authorProfile", { state: post })}
         >
           . <i className="fas fa-user mr-2"></i>
           Author :{post.author}
         </span>{" "}
         {post.user !== user?._id && (
-          <button className="text-blue-500 flex flex-end">+ Follow</button>
+          <button
+            className="text-blue-500 flex flex-end"
+            onClick={handleFollowing}
+          >
+            + Follow
+          </button>
         )}
         <span>&bull; &bull; &bull;</span>
       </p>
@@ -86,14 +92,16 @@ const Posts: React.FC<Post> = ({ post }) => {
           />
         </div>
       )}
-      <div className="LCcontainer">
+      <div className="LCcontainer ">
         <div className="likeAndComment">
-          <div className="likeRatingComment">
+          <div className="likeRatingComment flex sm:flex-wrap">
             <p className="whitespace-nowrap">
               <i className="fas fa-star"></i>:{rating}
             </p>
             <button
-              className="whitespace-nowrap"
+              className={`whitespace-nowrap ${
+                likes > post.likes ? "text-blue-500" : ""
+              }`}
               onClick={() => handleLikes(post._id)}
             >
               <i className="fas fa-thumbs-up"></i>
