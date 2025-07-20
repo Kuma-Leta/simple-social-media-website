@@ -3,9 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 const SignUp: React.FC = () => {
-  const [fisrtName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -22,7 +21,7 @@ const SignUp: React.FC = () => {
       const signUpResult = await axios.post(
         "http://localhost:5000/api/signup",
         {
-          fisrtName,
+          firstName,
           lastName,
           email,
           password,
@@ -55,7 +54,7 @@ const SignUp: React.FC = () => {
               name="name"
               placeholder="Enter your first name"
               type="text"
-              value={fisrtName}
+              value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -13,6 +13,7 @@ export const createUsers = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("req", req.body);
   const { firstName, lastName, email, password } = req.body;
   const userAlreadyExists = await userModel.findOne({ email });
   if (userAlreadyExists) {

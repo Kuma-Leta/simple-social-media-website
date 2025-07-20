@@ -7,7 +7,13 @@ import "../../styles/styles.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUsername } from "../../store/userSlice";
-const Posts: React.FC<Post> = ({ post }) => {
+import { endpoint } from "../../constants/constants";
+
+interface PostsProps {
+  post: Post;
+}
+
+const Posts: React.FC<PostsProps> = ({ post }) => {
   const [showmore, setShowMore] = useState(false);
   const [Close, setOnclose] = useState(false);
   const [likes, setLikes] = useState(post.likes);
@@ -15,9 +21,9 @@ const Posts: React.FC<Post> = ({ post }) => {
   const navigate = useNavigate();
   const user = useSelector(selectUsername);
   // const [toggleShowMore, setToggleShowMore] = useState((prev) => !prev);
-
+  console.log("post", post);
   const handleLikes = async (postId: string) => {
-    const result = await axios.post("http://localhost:5000/api/likePost", {
+    const result = await axios.post(`${endpoint}/api/likePost`, {
       postId,
     });
 
@@ -78,7 +84,7 @@ const Posts: React.FC<Post> = ({ post }) => {
         <div>
           <img
             className="w-full rounded-lg"
-            src={`http://localhost:5000/${post.imageContent}`}
+            src={`${endpoint}/uploads/${post.imageContent.replace(/\\/g, "/")}`}
             alt="Post"
           />
         </div>
@@ -87,7 +93,7 @@ const Posts: React.FC<Post> = ({ post }) => {
         <div className="">
           <video
             className="w-full rounded-lg"
-            src={`http://localhost:5000/${post.videoContent}`}
+            src={`${endpoint}/${post.videoContent.replace(/\\/g, "/")}`}
             controls
           />
         </div>
